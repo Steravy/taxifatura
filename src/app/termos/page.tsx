@@ -77,7 +77,7 @@ export default function TermosPage() {
               A TaxiFatura esforça-se por fornecer um serviço confiável, mas:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>O serviço é fornecido "como está" sem garantias expressas</li>
+              <li>O serviço é fornecido <strong>como está</strong> sem garantias expressas</li>
               <li>Não garantimos disponibilidade 100% do tempo</li>
               <li>Não somos responsáveis por perdas de dados devido a falhas técnicas</li>
               <li>A responsabilidade fiscal das faturas emitidas é exclusivamente sua</li>

@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MessageCircle, Phone, Mail, BookOpen, HelpCircle, Clock, Users, Zap } from "lucide-react"
-import Link from "next/link"
 
 export default function SuportePage() {
   return (
@@ -85,8 +84,8 @@ export default function SuportePage() {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600">
-                  Após fazer login, clique em "Nova Fatura", preencha os dados da viagem (cliente, origem, destino, valor) 
-                  e clique em "Gerar Fatura". O documento será criado automaticamente e pode ser descarregado ou partilhado.
+                  Após fazer login, clique em <strong>Nova Fatura</strong>, preencha os dados da viagem (cliente, origem, destino, valor) 
+                  e clique em <strong>Gerar Fatura</strong>. O documento será criado automaticamente e pode ser descarregado ou partilhado.
                 </p>
               </CardContent>
             </Card>
