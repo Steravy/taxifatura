@@ -10,7 +10,7 @@ export function CTASection() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
       <div className="absolute top-0 left-1/4 w-72 h-72 md:w-96 md:h-96 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl"></div>
-      
+
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left Content */}
@@ -21,18 +21,21 @@ export function CTASection() {
                 <TrendingUp className="w-4 h-4 text-green-400" />
                 <span className="text-sm font-medium text-green-300">Aumente os seus rendimentos hoje</span>
               </div>
-              
+
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
-                <span className="block">Não Perca Mais</span>
-                <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Oportunidades
+                <span className="block">Não Perca</span>
+                <span>
+                  Nenhuma {" "}
+                  <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                    Oportunidade
+                  </span>
                 </span>
                 <span className="block">de Negócio</span>
               </h2>
-              
+
               <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-                Empresas e turistas procuram taxistas profissionais. 
-                Seja o primeiro a oferecer faturas adequadas e conquiste 
+                Empresas e turistas procuram taxistas profissionais.
+                Seja o primeiro a oferecer faturas adequadas e conquiste
                 os clientes mais rentáveis.
               </p>
             </div>
@@ -72,13 +75,13 @@ export function CTASection() {
               <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6">
                 <FileText className="w-7 h-7 md:w-8 md:h-8 text-white" />
               </div>
-              
+
               <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-800">
                 Comece Agora Mesmo
               </h3>
-              
+
               <p className="text-slate-600 text-base md:text-lg leading-relaxed">
-                Transforme o seu táxi num negócio profissional em apenas 2 minutos. 
+                Transforme o seu táxi num negócio profissional em apenas 2 minutos.
                 Grátis para sempre.
               </p>
 
@@ -93,7 +96,7 @@ export function CTASection() {
                     <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
                   </Button>
                 </Link>
-                
+
                 <Link href="/demo" className="block">
                   <Button
                     variant="outline"
