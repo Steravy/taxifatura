@@ -24,6 +24,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  receipts      Receipt[]
 
   @@unique([email])
   @@map("user")
@@ -81,4 +82,45 @@ model WaitingList {
   updatedAt DateTime @updatedAt
 
   @@map("waiting_list")
+}
+
+model Receipt {
+  id          String   @id @default(cuid())
+  
+  // Business fields
+  clientName  String
+  origin      String
+  destination String
+  distance    Float?
+  amount      Decimal  @db.Decimal(10, 2)
+  status      ReceiptStatus @default(COMPLETED)
+  notes       String?
+  
+  // Date and time fields
+  tripDate    DateTime
+  tripTime    String   // Format: "HH:MM"
+  
+  // Audit fields
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Indexes
+  @@index([userId])
+  @@index([tripDate])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("receipt")
+}
+
+enum ReceiptStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  
+  @@map("receipt_status")
 }
