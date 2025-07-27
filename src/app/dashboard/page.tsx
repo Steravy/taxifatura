@@ -9,13 +9,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/ui/input"
 import { InvoiceModal } from "@/components/invoice-modal"
 import { getReceipts, getStats } from "@/app/actions/invoice"
-import { auth } from "@/lib/auth"
-import type { Receipt } from "@/generated/prisma"
+import { SerializedReceipt } from "../actions/types"
+import { useRouter } from "next/navigation"
+import { authClient } from "@/lib/auth-client"
 
 export default function DashboardPage() {
+
+    const router = useRouter();
+
+    const {
+        data: session,
+        isPending, //loading state
+    } = authClient.useSession();
+
+    if (!isPending && !session) router.push('/login');
+
     const [showCreateModal, setShowCreateModal] = useState(false)
-    const [receipts, setReceipts] = useState<Receipt[]>([])
-    const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null)
+    const [receipts, setReceipts] = useState<SerializedReceipt[]>([])
     const [todayStats, setTodayStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [weekStats, setWeekStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [searchTerm, setSearchTerm] = useState("")
@@ -24,7 +34,7 @@ export default function DashboardPage() {
     const loadData = async () => {
         try {
             setIsLoading(true)
-            
+
             // Load receipts and stats in parallel
             const [receiptsResult, statsResult] = await Promise.all([
                 getReceipts(1, searchTerm || undefined),
@@ -45,21 +55,6 @@ export default function DashboardPage() {
             setIsLoading(false)
         }
     }
-
-    // Load user session
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const session = await auth.api.getSession({
-                    headers: new Headers(),
-                })
-                setUser(session?.user || null)
-            } catch (error) {
-                console.error("Error loading user:", error)
-            }
-        }
-        loadUser()
-    }, [])
 
     // Load data on component mount and search term change
     useEffect(() => {
@@ -92,8 +87,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="hidden sm:flex items-center space-x-2 text-sm">
-                                <span className="text-slate-600">Olá,</span>
-                                <span className="font-medium">{user?.name || "..."}</span>
+                                <span className="font-medium">{session?.user?.name || "..."}</span>
                             </div>
                             <div className="w-10 h-10 bg-gradient-to-r from-slate-200 to-slate-300 rounded-full flex items-center justify-center">
                                 <User className="w-5 h-5 text-slate-600" />
@@ -256,7 +250,7 @@ export default function DashboardPage() {
                                             <TableHead className="font-semibold min-w-[100px]">Distância</TableHead>
                                             <TableHead className="font-semibold min-w-[100px]">Valor</TableHead>
                                             <TableHead className="font-semibold min-w-[100px]">Status</TableHead>
-                                            <TableHead className="text-right font-semibold min-w-[120px]">Ações</TableHead>
+                                            <TableHead className="text-center font-semibold min-w-[120px]">Ações</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>

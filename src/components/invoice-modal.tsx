@@ -17,18 +17,18 @@ import {
 } from "@/components/ui/drawer"
 import { InvoiceForm } from "@/components/forms/invoice-form"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import type { Receipt } from "@/generated/prisma"
+import { SerializedReceipt } from "@/app/actions/types"
 
 interface InvoiceModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSuccess?: (receipt: Receipt) => void
+  onSuccess?: (receipt: SerializedReceipt) => void
 }
 
 export function InvoiceModal({ open, onOpenChange, onSuccess }: InvoiceModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)")
-  
-  const handleSuccess = (receipt: Receipt) => {
+
+  const handleSuccess = (receipt: SerializedReceipt) => {
     onSuccess?.(receipt)
     onOpenChange(false)
   }

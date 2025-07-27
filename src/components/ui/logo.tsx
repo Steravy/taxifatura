@@ -1,12 +1,6 @@
 import { FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface LogoProps {
-  className?: string;
-  iconSize?: "sm" | "md" | "lg";
-  textSize?: "sm" | "md" | "lg";
-}
-
 export function Logo() {
 
   return (

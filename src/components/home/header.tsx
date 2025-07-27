@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { Logo } from "../ui/logo";
 import { cn } from "@/lib/utils";
 

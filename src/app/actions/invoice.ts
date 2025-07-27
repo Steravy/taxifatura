@@ -4,19 +4,21 @@ import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { invoiceProcessingSchema, type InvoiceInput } from "@/lib/validators/invoice.schema"
 import { receiptService, type CreateReceiptData } from "@/lib/services/receipt.service"
-import type { Receipt } from "@/generated/prisma"
+import { headers } from "next/headers"
+import { serializeReceipt } from "@/lib/utils"
+import { SerializedReceipt } from "./types"
 
 // Server action result types
-type ActionResult<T> = 
+type ActionResult<T> =
   | { success: true; data: T; message: string }
   | { success: false; error: string; message: string }
 
-export async function createInvoice(input: InvoiceInput): Promise<ActionResult<Receipt>> {
+export async function createInvoice(input: InvoiceInput): Promise<ActionResult<SerializedReceipt>> {
   try {
-    // Get current user session
+
     const session = await auth.api.getSession({
-      headers: await import("next/headers").then(h => h.headers()),
-    })
+      headers: await headers(),
+    });
 
     if (!session?.user?.id) {
       return {
@@ -26,9 +28,11 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<R
       }
     }
 
+    console.log(JSON.stringify(session, null, 2))
+
     // Validate and transform the input data
     const validatedData = invoiceProcessingSchema.parse(input)
-    
+
     // Create receipt data structure
     const receiptData: CreateReceiptData = {
       clientName: validatedData.clientName,
@@ -42,18 +46,18 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<R
 
     // Save to database
     const receipt = await receiptService.create(receiptData)
-    
+
     // Revalidate the dashboard page to reflect changes
     revalidatePath("/dashboard")
-    
+
     return {
       success: true,
-      data: receipt,
+      data: serializeReceipt(receipt),
       message: "Fatura criada com sucesso"
     }
   } catch (error) {
     console.error("Error creating invoice:", error)
-    
+
     if (error instanceof Error) {
       return {
         success: false,
@@ -61,7 +65,7 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<R
         message: "Erro ao criar fatura"
       }
     }
-    
+
     return {
       success: false,
       error: "Erro desconhecido",
@@ -70,12 +74,12 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<R
   }
 }
 
-export async function getReceipts(page = 1, search?: string): Promise<ActionResult<Receipt[]>> {
+export async function getReceipts(page = 1, search?: string): Promise<ActionResult<SerializedReceipt[]>> {
   try {
     // Get current user session
     const session = await auth.api.getSession({
-      headers: await import("next/headers").then(h => h.headers()),
-    })
+      headers: await headers(),
+    });
 
     if (!session?.user?.id) {
       return {
@@ -90,15 +94,15 @@ export async function getReceipts(page = 1, search?: string): Promise<ActionResu
       userId: session.user.id,
       search,
     }, page, 50)
-    
+
     return {
       success: true,
-      data: receipts,
+      data: receipts.map(r => serializeReceipt(r)),
       message: "Recibos carregados com sucesso"
     }
   } catch (error) {
     console.error("Error fetching receipts:", error)
-    
+
     return {
       success: false,
       error: "Erro ao carregar recibos",
@@ -111,8 +115,8 @@ export async function getStats(): Promise<ActionResult<{ today: { totalAmount: n
   try {
     // Get current user session
     const session = await auth.api.getSession({
-      headers: await import("next/headers").then(h => h.headers()),
-    })
+      headers: await headers(),
+    });
 
     if (!session?.user?.id) {
       return {
@@ -127,7 +131,7 @@ export async function getStats(): Promise<ActionResult<{ today: { totalAmount: n
       receiptService.getTodayStats(session.user.id),
       receiptService.getWeekStats(session.user.id),
     ])
-    
+
     return {
       success: true,
       data: { today: todayStats, week: weekStats },
@@ -135,7 +139,7 @@ export async function getStats(): Promise<ActionResult<{ today: { totalAmount: n
     }
   } catch (error) {
     console.error("Error fetching stats:", error)
-    
+
     return {
       success: false,
       error: "Erro ao carregar estatísticas",

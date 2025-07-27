@@ -19,10 +19,10 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { invoiceInputSchema, type InvoiceInput } from "@/lib/validators/invoice.schema"
 import { createInvoice } from "@/app/actions/invoice"
-import type { Receipt } from "@/generated/prisma"
+import { SerializedReceipt } from "@/app/actions/types"
 
 interface InvoiceFormProps {
-  onSuccess?: (receipt: Receipt) => void
+  onSuccess?: (receipt: SerializedReceipt) => void
   onCancel?: () => void
 }
 

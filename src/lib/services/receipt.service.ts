@@ -48,14 +48,14 @@ export class ReceiptService {
         tripTime: now.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" }),
         status: "COMPLETED",
       },
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          }
-        }
-      }
+      // include: {
+      //   user: {
+      //     select: {
+      //       name: true,
+      //       email: true,
+      //     }
+      //   }
+      // }
     })
   }
 
@@ -85,14 +85,14 @@ export class ReceiptService {
       },
       skip,
       take: limit,
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          }
-        }
-      }
+      // include: {
+      //   user: {
+      //     select: {
+      //       name: true,
+      //       email: true,
+      //     }
+      //   }
+      // }
     })
   }
 
