@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Logo } from "@/components/ui/logo"
 import Link from "next/link"
 
 export default function DemoPage() {
@@ -20,7 +21,7 @@ export default function DemoPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white">
             {/* Header */}
             <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-3">
+                <div className="container mx-auto px-4 py-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                             <Link
@@ -30,17 +31,10 @@ export default function DemoPage() {
                                 <ArrowLeft className="w-4 h-4" />
                                 <span className="text-sm">Voltar</span>
                             </Link>
-                            <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center">
-                                    <FileText className="w-4 h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                                    TaxiFatura
-                                </span>
-                            </div>
+                            <Logo />
                         </div>
                         <Link href="/dashboard">
-                            <Button className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-sm md:text-base px-4 md:px-6">
+                            <Button className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-sm md:text-base px-4 md:px-6 rounded-full">
                                 Começar Agora
                             </Button>
                         </Link>
@@ -592,16 +586,22 @@ export default function DemoPage() {
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-12 md:py-16 px-4 bg-gradient-to-r from-blue-600 to-cyan-600">
-                <div className="container mx-auto max-w-4xl text-center text-white">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Viu Como É Simples?</h2>
-                    <p className="text-lg md:text-xl mb-8 text-blue-100">
+            {/* CTA Section - Match new design */}
+            <section className="relative py-20 md:py-32 px-4 overflow-hidden">
+                {/* Background Design - Similar to CTA Section */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div className="absolute top-0 left-1/4 w-72 h-72 md:w-96 md:h-96 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl"></div>
+
+                <div className="container mx-auto max-w-4xl text-center relative z-10">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Viu Como É Simples?</h2>
+                    <p className="text-lg md:text-xl mb-8 text-slate-300">
                         Agora que conhece todas as funcionalidades, está pronto para profissionalizar o seu negócio
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link href="/dashboard">
-                            <Button size="lg" className="bg-white text-blue-600 hover:bg-slate-100 font-semibold px-8 py-3">
+                            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold px-8 py-3 rounded-xl text-white">
                                 Começar Gratuitamente
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>
@@ -610,13 +610,13 @@ export default function DemoPage() {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 bg-transparent"
+                                className="border-2 border-white/30 text-white hover:border-cyan-400 hover:bg-cyan-400/10 hover:text-white transition-all duration-300 px-8 py-3 rounded-xl font-semibold"
                             >
                                 Voltar ao Início
                             </Button>
                         </Link>
                     </div>
-                    <p className="text-sm text-blue-200 mt-6">Sem cartão de crédito • Configuração em 2 minutos • Suporte 24/7</p>
+                    <p className="text-sm text-slate-400 mt-6">Sem cartão de crédito • Configuração em 2 minutos • Suporte 24/7</p>
                 </div>
             </section>
         </div>

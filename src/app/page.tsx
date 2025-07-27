@@ -7,37 +7,13 @@ import { HeroSection } from "@/components/home/hero-section"
 import { FeaturesSection } from "@/components/home/features-section"
 import { CTASection } from "@/components/home/cta-section"
 import Link from "next/link"
+import Header from "@/components/home/header"
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 max-w-7xl">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 min-w-0">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                <FileText className="w-4 h-4 md:w-6 md:h-6 text-white" />
-              </div>
-              <span className="text-lg md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent truncate">
-                TaxiFatura
-              </span>
-            </div>
-            <div className="flex items-center space-x-2 md:space-x-3 flex-shrink-0">
-              <Link href="/demo" className="hidden sm:block">
-                <Button variant="outline" size="sm" className="bg-transparent text-xs md:text-sm whitespace-nowrap">
-                  Ver Demo
-                </Button>
-              </Link>
-              <Link href="/dashboard">
-                <Button size="sm" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-xs md:text-sm px-3 md:px-4 whitespace-nowrap">
-                  Começar
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <HeroSection />
 
@@ -46,7 +22,7 @@ export default function LandingPage() {
       {/* How It Works */}
       <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto max-w-7xl">
-          <SectionHeader 
+          <SectionHeader
             title={<>Como <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Funciona</span></>}
             subtitle="Duas formas simples de criar faturas profissionais"
           />
@@ -130,7 +106,7 @@ export default function LandingPage() {
       {/* Benefits */}
       <section className="py-20 md:py-32 px-4 bg-slate-50">
         <div className="container mx-auto max-w-7xl">
-          <SectionHeader 
+          <SectionHeader
             title={<>Porquê Escolher o <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">TaxiFatura</span></>}
           />
 
@@ -143,7 +119,7 @@ export default function LandingPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-800">Mais Confiança dos Clientes</h3>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                    Documentos profissionais criam confiança instantânea e abrem portas a novos negócios. 
+                    Documentos profissionais criam confiança instantânea e abrem portas a novos negócios.
                     Clientes empresariais e turistas valorizam a organização.
                   </p>
                 </div>
@@ -156,7 +132,7 @@ export default function LandingPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-800">Pagamentos Mais Rápidos</h3>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                    Empresas e turistas pagam mais rapidamente quando recebem recibos adequados. 
+                    Empresas e turistas pagam mais rapidamente quando recebem recibos adequados.
                     Elimine atrasos e disputes desnecessárias.
                   </p>
                 </div>
@@ -169,7 +145,7 @@ export default function LandingPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-800">Controlo Total</h3>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                    Saiba exatamente quanto ganha por dia, semana e mês. 
+                    Saiba exatamente quanto ganha por dia, semana e mês.
                     Organize melhor o seu negócio com dados reais e confiáveis.
                   </p>
                 </div>
@@ -182,7 +158,7 @@ export default function LandingPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-800">Crescimento Sustentável</h3>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                    Transforme o seu táxi num negócio profissional e escalável. 
+                    Transforme o seu táxi num negócio profissional e escalável.
                     Atraia clientes melhores e construa uma reputação sólida.
                   </p>
                 </div>
