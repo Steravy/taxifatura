@@ -20,6 +20,7 @@ export function ReceiptStatusButton({
 }: ReceiptStatusButtonProps) {
   const [isPending, startTransition] = useTransition()
   const isCompleted = currentStatus === "COMPLETED"
+  const isPending_status = currentStatus === "PENDING"
 
   const handleMarkCompleted = () => {
     if (isCompleted) return
@@ -41,23 +42,35 @@ export function ReceiptStatusButton({
     })
   }
 
+  const getButtonColors = () => {
+    if (isCompleted) {
+      return "text-green-600 hover:text-green-700 hover:bg-green-50"
+    }
+    if (isPending_status) {
+      return "text-yellow-600 hover:text-green-600 hover:bg-green-50"
+    }
+    return "text-slate-400 hover:text-green-600 hover:bg-green-50"
+  }
+
   return (
     <Button 
       variant="ghost" 
       size="sm" 
-      className={`h-8 w-8 p-0 ${
-        isCompleted 
-          ? "text-green-600 hover:text-green-700 hover:bg-green-50" 
-          : "text-slate-400 hover:text-green-600 hover:bg-green-50"
-      }`}
+      className={`h-8 w-8 p-0 ${getButtonColors()}`}
       onClick={handleMarkCompleted}
       disabled={isPending || isCompleted}
-      title={isCompleted ? "Recibo concluído" : "Marcar como concluído"}
+      title={
+        isCompleted 
+          ? "Recibo concluído" 
+          : isPending_status 
+            ? "Recibo pendente - clique para marcar como concluído"
+            : "Marcar como concluído"
+      }
     >
       {isPending ? (
         <Loader2 className="w-4 h-4 animate-spin" />
       ) : (
-        <CheckCircle className={`w-4 h-4 ${isCompleted ? "fill-current" : ""}`} />
+        <CheckCircle className="w-4 h-4" />
       )}
     </Button>
   )

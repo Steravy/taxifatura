@@ -1,7 +1,6 @@
-import { PrismaClient, type Receipt, type ReceiptStatus } from "@/generated/prisma"
+import { Receipt, ReceiptStatus } from "@/generated/prisma"
+import { db } from "../db"
 
-// Initialize Prisma client (will be singleton in production)
-const prisma = new PrismaClient()
 
 export interface CreateReceiptData {
   clientName: string
@@ -42,14 +41,14 @@ export interface ReceiptStats {
 }
 
 export class ReceiptService {
-  
+
   /**
    * Create a new receipt
    */
   static async create(data: CreateReceiptData): Promise<Receipt> {
     const now = new Date()
-    
-    return prisma.receipt.create({
+
+    return db.receipt.create({
       data: {
         clientName: data.clientName,
         origin: data.origin,
@@ -70,7 +69,7 @@ export class ReceiptService {
    * Create a public receipt (from QR code form submission)
    */
   static async createPublic(data: CreatePublicReceiptData): Promise<Receipt> {
-    return prisma.receipt.create({
+    return db.receipt.create({
       data: {
         clientName: data.clientName,
         origin: data.origin,
@@ -109,8 +108,8 @@ export class ReceiptService {
    */
   static async findMany(filters: ReceiptFilters, page = 1, limit = 50): Promise<Receipt[]> {
     const skip = (page - 1) * limit
-    
-    return prisma.receipt.findMany({
+
+    return db.receipt.findMany({
       where: {
         userId: filters.userId,
         deletedAt: null, // Soft delete filter
@@ -151,7 +150,7 @@ export class ReceiptService {
    * Get receipt by ID
    */
   static async findById(id: string, userId: string): Promise<Receipt | null> {
-    return prisma.receipt.findFirst({
+    return db.receipt.findFirst({
       where: {
         id,
         userId,
@@ -181,7 +180,7 @@ export class ReceiptService {
    * Get receipt by ID for public access (no user ID required)
    */
   static async findByIdPublic(id: string) {
-    return prisma.receipt.findFirst({
+    return db.receipt.findFirst({
       where: {
         id,
         deletedAt: null,
@@ -215,7 +214,7 @@ export class ReceiptService {
     const receipt = await this.findById(id, userId)
     if (!receipt) return null
 
-    return prisma.receipt.update({
+    return db.receipt.update({
       where: { id },
       data: {
         ...data,
@@ -240,7 +239,7 @@ export class ReceiptService {
     const receipt = await this.findById(id, userId)
     if (!receipt) return null
 
-    return prisma.receipt.update({
+    return db.receipt.update({
       where: { id },
       data: {
         status: status,
@@ -275,14 +274,14 @@ export class ReceiptService {
       const receipt = await this.findById(id, userId)
       if (!receipt) return false
 
-      await prisma.receipt.update({
+      await db.receipt.update({
         where: { id },
         data: {
           deletedAt: new Date(),
           updatedAt: new Date(),
         },
       })
-      
+
       return true
     } catch {
       return false
@@ -298,7 +297,7 @@ export class ReceiptService {
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
 
-    const result = await prisma.receipt.aggregate({
+    const result = await db.receipt.aggregate({
       where: {
         userId,
         deletedAt: null,
@@ -331,7 +330,7 @@ export class ReceiptService {
     const today = new Date()
     const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
 
-    const result = await prisma.receipt.aggregate({
+    const result = await db.receipt.aggregate({
       where: {
         userId,
         deletedAt: null,
@@ -361,7 +360,7 @@ export class ReceiptService {
    * Get total count for pagination
    */
   static async count(filters: ReceiptFilters): Promise<number> {
-    return prisma.receipt.count({
+    return db.receipt.count({
       where: {
         userId: filters.userId,
         deletedAt: null,

@@ -1,8 +1,7 @@
-import { PrismaClient, type Vehicle } from "@/generated/prisma"
+import { Vehicle } from "@/generated/prisma"
 import { generateVehicleSlug } from "@/lib/vehicle-utils"
+import { db } from "../db"
 
-// Initialize Prisma client (will be singleton in production)
-const prisma = new PrismaClient()
 
 export interface CreateVehicleData {
   licensePlate: string
@@ -18,15 +17,15 @@ export interface VehicleFilters {
 }
 
 export class VehicleService {
-  
+
   /**
    * Create a new vehicle
    */
   static async create(data: CreateVehicleData): Promise<Vehicle> {
     // Generate unique slug for QR code URLs
     const slug = generateVehicleSlug(data.licensePlate)
-    
-    return prisma.vehicle.create({
+
+    return db.vehicle.create({
       data: {
         licensePlate: data.licensePlate,
         make: data.make,
@@ -42,7 +41,7 @@ export class VehicleService {
    * Get vehicles with filters
    */
   static async findMany(filters: VehicleFilters): Promise<Vehicle[]> {
-    return prisma.vehicle.findMany({
+    return db.vehicle.findMany({
       where: {
         userId: filters.userId,
         deletedAt: null, // Soft delete filter
@@ -63,7 +62,7 @@ export class VehicleService {
    * Get vehicle by ID
    */
   static async findById(id: string, userId: string): Promise<Vehicle | null> {
-    return prisma.vehicle.findFirst({
+    return db.vehicle.findFirst({
       where: {
         id,
         userId,
@@ -76,7 +75,7 @@ export class VehicleService {
    * Get vehicle by slug (for public QR code pages)
    */
   static async findBySlug(slug: string): Promise<(Vehicle & { user: { name: string; email: string } }) | null> {
-    return prisma.vehicle.findFirst({
+    return db.vehicle.findFirst({
       where: {
         slug,
         deletedAt: null,
@@ -100,7 +99,7 @@ export class VehicleService {
     const vehicle = await this.findById(id, userId)
     if (!vehicle) return null
 
-    return prisma.vehicle.update({
+    return db.vehicle.update({
       where: { id },
       data: {
         ...data,
@@ -119,7 +118,7 @@ export class VehicleService {
       if (!vehicle) return false
 
       // Check if vehicle has receipts
-      const receiptCount = await prisma.receipt.count({
+      const receiptCount = await db.receipt.count({
         where: {
           vehicleId: id,
           deletedAt: null,
@@ -130,14 +129,14 @@ export class VehicleService {
         throw new Error("Não é possível eliminar veículo com recibos associados")
       }
 
-      await prisma.vehicle.update({
+      await db.vehicle.update({
         where: { id },
         data: {
           deletedAt: new Date(),
           updatedAt: new Date(),
         },
       })
-      
+
       return true
     } catch {
       return false
@@ -148,7 +147,7 @@ export class VehicleService {
    * Check if license plate exists for user
    */
   static async existsByLicensePlate(licensePlate: string, userId: string, excludeId?: string): Promise<boolean> {
-    const count = await prisma.vehicle.count({
+    const count = await db.vehicle.count({
       where: {
         licensePlate,
         userId,
@@ -163,7 +162,7 @@ export class VehicleService {
    * Get total count for pagination
    */
   static async count(filters: VehicleFilters): Promise<number> {
-    return prisma.vehicle.count({
+    return db.vehicle.count({
       where: {
         userId: filters.userId,
         deletedAt: null,
@@ -183,15 +182,15 @@ export class VehicleService {
   static async getVehicleStats(userId: string) {
     const [vehicleCount, mostUsedVehicle] = await Promise.all([
       // Total vehicle count
-      prisma.vehicle.count({
+      db.vehicle.count({
         where: {
           userId,
           deletedAt: null,
         },
       }),
-      
+
       // Most used vehicle (by receipt count)
-      prisma.vehicle.findFirst({
+      db.vehicle.findFirst({
         where: {
           userId,
           deletedAt: null,
