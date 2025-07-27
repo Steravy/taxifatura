@@ -1,4 +1,4 @@
-import { ArrowRight, Smartphone, TrendingUp } from "lucide-react"
+import { ArrowRight, Smartphone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
