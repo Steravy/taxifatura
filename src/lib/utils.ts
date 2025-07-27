@@ -1,6 +1,6 @@
 import { SerializedReceipt, SerializedVehicle } from "@/app/actions/types";
 import { BetterAuthErrorCode } from "@/components/auth/schemas";
-import { Receipt, Vehicle } from "@/generated/prisma";
+import { Receipt, User, Vehicle } from "@/generated/prisma";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -21,7 +21,7 @@ export const getAuthErrorMessage = (error: Record<string, string>): string => {
   }
 };
 
-export function serializeReceipt(receipt: any): SerializedReceipt {
+export function serializeReceipt(receipt: Receipt & { vehicle: Vehicle }): SerializedReceipt {
   return {
     ...receipt,
     amount: receipt.amount.toString(), // convert Decimal to string
@@ -35,7 +35,7 @@ export function serializeReceipt(receipt: any): SerializedReceipt {
   }
 }
 
-export function serializeReceiptWithExtras(receipt: any): SerializedReceipt & {
+export function serializeReceiptWithExtras(receipt: Receipt & { vehicle: Vehicle, user: User }): SerializedReceipt & {
   vehicle: { id: string; licensePlate: string; make: string; model: string; color: string | null; slug: string }
   user: { name: string; email: string }
 } {

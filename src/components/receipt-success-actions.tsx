@@ -7,6 +7,7 @@ interface ReceiptSuccessActionsProps {
   receiptId: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ReceiptSuccessActions({ receiptId: _receiptId }: ReceiptSuccessActionsProps) {
   const handlePrint = () => {
     window.print()

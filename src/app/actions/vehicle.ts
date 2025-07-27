@@ -239,6 +239,7 @@ export async function deleteVehicle(id: string): Promise<ActionResult<boolean>> 
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getVehicleStats(): Promise<ActionResult<{totalVehicles: number, mostUsedVehicle: any}>> {
   try {
     const session = await auth.api.getSession({

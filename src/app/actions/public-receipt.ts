@@ -147,7 +147,8 @@ export async function getPublicReceipt(receiptId: string): Promise<ActionResult<
     return {
       success: true,
       data: {
-        receipt: serializeReceiptWithExtras(receipt)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        receipt: serializeReceiptWithExtras(receipt as any)
       },
       message: "Recibo carregado com sucesso"
     }

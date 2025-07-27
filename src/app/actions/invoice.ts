@@ -53,7 +53,7 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<S
 
     return {
       success: true,
-      data: serializeReceipt(receipt),
+      data: serializeReceipt(receipt as any), // eslint-disable-line @typescript-eslint/no-explicit-any
       message: "Fatura criada com sucesso"
     }
   } catch (error) {
@@ -98,7 +98,7 @@ export async function getReceipts(page = 1, search?: string): Promise<ActionResu
 
     return {
       success: true,
-      data: receipts.map(r => serializeReceipt(r)),
+      data: receipts.map(r => serializeReceipt(r as any)), // eslint-disable-line @typescript-eslint/no-explicit-any
       message: "Recibos carregados com sucesso"
     }
   } catch (error) {
@@ -179,7 +179,7 @@ export async function markReceiptCompleted(receiptId: string): Promise<ActionRes
 
     return {
       success: true,
-      data: serializeReceipt(updatedReceipt),
+      data: serializeReceipt(updatedReceipt as any), // eslint-disable-line @typescript-eslint/no-explicit-any
       message: "Recibo marcado como concluído"
     }
   } catch (error) {

@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { QrCode, Copy, Download, Car, User, CheckCircle } from "lucide-react"
+import { QrCode, Download } from "lucide-react"
 import QRCode from "react-qr-code"
-import { toast } from "sonner"
 
 import {
   Dialog,
@@ -18,8 +16,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { SerializedVehicle } from "@/app/actions/types"
 
@@ -30,7 +26,7 @@ interface VehicleQRModalProps {
 }
 
 export function VehicleQRModal({ vehicle, open, onOpenChange }: VehicleQRModalProps) {
-  const [copied, setCopied] = useState(false)
+  // const [copied, setCopied] = useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
 
   if (!vehicle) return null
@@ -38,16 +34,16 @@ export function VehicleQRModal({ vehicle, open, onOpenChange }: VehicleQRModalPr
   // Generate the QR code URL
   const qrUrl = `${window.location.origin}/v/${vehicle.slug}/receipt-request`
 
-  const handleCopyUrl = async () => {
-    try {
-      await navigator.clipboard.writeText(qrUrl)
-      setCopied(true)
-      toast.success("URL copiado para a área de transferência")
-      setTimeout(() => setCopied(false), 2000)
-    } catch (error) {
-      toast.error("Erro ao copiar URL")
-    }
-  }
+  // const handleCopyUrl = async () => {
+  //   try {
+  //     await navigator.clipboard.writeText(qrUrl)
+  //     setCopied(true)
+  //     toast.success("URL copiado para a área de transferência")
+  //     setTimeout(() => setCopied(false), 2000)
+  //   } catch (error) {
+  //     toast.error("Erro ao copiar URL")
+  //   }
+  // }
 
   const handleDownloadQR = () => {
     // Create a canvas to export the QR code

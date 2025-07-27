@@ -1,4 +1,4 @@
-import { CheckCircle, Car, Receipt, Clock, Mail, User, AlertCircle } from "lucide-react"
+import { CheckCircle, Car, Receipt, Clock, Mail, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"

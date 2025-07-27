@@ -180,7 +180,7 @@ export class ReceiptService {
   /**
    * Get receipt by ID for public access (no user ID required)
    */
-  static async findByIdPublic(id: string): Promise<Receipt | null> {
+  static async findByIdPublic(id: string) {
     return prisma.receipt.findFirst({
       where: {
         id,

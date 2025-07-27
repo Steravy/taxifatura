@@ -183,7 +183,8 @@ export default function DashboardPage() {
                                     </p>
                                     {vehicleStats.mostUsedVehicle && (
                                         <p className="text-xs text-slate-500 mt-1">
-                                            Mais usado: {vehicleStats.mostUsedVehicle.licensePlate}
+                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                            Mais usado: {(vehicleStats.mostUsedVehicle as any).licensePlate}
                                         </p>
                                     )}
                                 </div>
