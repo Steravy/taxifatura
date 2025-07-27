@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/ui/section-header"
 
 export function FeaturesSection() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-slate-50">
+    <section className="py-16 md:py-24 bg-slate-50">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader 
           title="Tudo o Que Precisa Para Crescer"

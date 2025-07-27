@@ -16,11 +16,11 @@ export function HeroSection() {
       
       <div className="container mx-auto max-w-7xl relative z-10 px-4 sm:px-6 pb-20">
         <div className="text-center space-y-6 md:space-y-8 text-white">
-          <div className="inline-flex items-center space-x-2 bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-full px-4 py-2 md:px-6 md:py-3">
+          {/* <div className="inline-flex items-center space-x-2 bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-full px-4 py-2 md:px-6 md:py-3">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <TrendingUp className="w-4 h-4 text-green-400" />
             <span className="text-xs md:text-sm font-medium text-green-300">Feito especialmente para taxistas de Cabo Verde</span>
-          </div>
+          </div> */}
 
           <div className="space-y-4 md:space-y-6">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight px-2">
@@ -62,7 +62,7 @@ export function HeroSection() {
 
           {/* Trust indicators */}
           <div className="pt-8 md:pt-10">
-            <p className="text-sm md:text-base text-slate-400 mb-8">Já escolhido por taxistas em:</p>
+            <p className="text-sm md:text-base text-slate-400 mb-8">Usado por taxistas em:</p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-2xl mx-auto">
               <div className="flex flex-col items-center space-y-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
