@@ -1,6 +1,6 @@
-import { SerializedReceipt } from "@/app/actions/types";
+import { SerializedReceipt, SerializedVehicle } from "@/app/actions/types";
 import { BetterAuthErrorCode } from "@/components/auth/schemas";
-import { Receipt } from "@/generated/prisma";
+import { Receipt, Vehicle } from "@/generated/prisma";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -25,5 +25,11 @@ export function serializeReceipt(receipt: Receipt): SerializedReceipt {
   return {
     ...receipt,
     amount: receipt.amount.toString(), // convert Decimal to string
+  }
+}
+
+export function serializeVehicle(vehicle: Vehicle): SerializedVehicle {
+  return {
+    ...vehicle,
   }
 }

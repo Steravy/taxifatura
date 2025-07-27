@@ -9,6 +9,7 @@ export interface CreateReceiptData {
   destination: string
   distance?: number
   amount: number
+  vehicleId: string
   notes?: string
   userId: string
 }
@@ -42,20 +43,13 @@ export class ReceiptService {
         destination: data.destination,
         distance: data.distance,
         amount: data.amount,
+        vehicleId: data.vehicleId,
         notes: data.notes,
         userId: data.userId,
         tripDate: now,
         tripTime: now.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" }),
         status: "COMPLETED",
       },
-      // include: {
-      //   user: {
-      //     select: {
-      //       name: true,
-      //       email: true,
-      //     }
-      //   }
-      // }
     })
   }
 

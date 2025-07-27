@@ -28,6 +28,10 @@ export const invoiceInputSchema = z.object({
     .string()
     .min(1, "Valor é obrigatório"),
   
+  vehicleId: z
+    .string()
+    .min(1, "Veículo é obrigatório"),
+  
   notes: z
     .string()
     .optional()
@@ -48,6 +52,7 @@ export const invoiceProcessingSchema = invoiceInputSchema.transform((data) => ({
     if (isNaN(parsed)) throw new Error("Valor inválido")
     return parsed
   })(),
+  vehicleId: data.vehicleId,
   notes: data.notes?.trim() || undefined
 })).refine((data) => {
   return data.distance === undefined || data.distance > 0

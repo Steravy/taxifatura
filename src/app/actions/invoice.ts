@@ -40,6 +40,7 @@ export async function createInvoice(input: InvoiceInput): Promise<ActionResult<S
       destination: validatedData.destination,
       distance: validatedData.distance,
       amount: validatedData.amount,
+      vehicleId: validatedData.vehicleId,
       notes: validatedData.notes,
       userId: session.user.id,
     }

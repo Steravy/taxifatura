@@ -1,15 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Eye, Download, MoreHorizontal, Filter, Search } from "lucide-react"
+import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Eye, Download, MoreHorizontal, Filter, Search, Car, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { InvoiceModal } from "@/components/invoice-modal"
+import { VehicleModal } from "@/components/vehicle-modal"
 import { getReceipts, getStats } from "@/app/actions/invoice"
-import { SerializedReceipt } from "../actions/types"
+import { getVehicles } from "@/app/actions/vehicle"
+import { SerializedReceipt, SerializedVehicle } from "../actions/types"
 import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
 
@@ -25,7 +28,9 @@ export default function DashboardPage() {
     if (!isPending && !session) router.push('/login');
 
     const [showCreateModal, setShowCreateModal] = useState(false)
+    const [showVehicleModal, setShowVehicleModal] = useState(false)
     const [receipts, setReceipts] = useState<SerializedReceipt[]>([])
+    const [vehicles, setVehicles] = useState<SerializedVehicle[]>([])
     const [todayStats, setTodayStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [weekStats, setWeekStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [searchTerm, setSearchTerm] = useState("")
@@ -35,10 +40,11 @@ export default function DashboardPage() {
         try {
             setIsLoading(true)
 
-            // Load receipts and stats in parallel
-            const [receiptsResult, statsResult] = await Promise.all([
+            // Load receipts, stats, and vehicles in parallel
+            const [receiptsResult, statsResult, vehiclesResult] = await Promise.all([
                 getReceipts(1, searchTerm || undefined),
-                getStats()
+                getStats(),
+                getVehicles()
             ])
 
             if (receiptsResult.success) {
@@ -48,6 +54,10 @@ export default function DashboardPage() {
             if (statsResult.success) {
                 setTodayStats(statsResult.data.today)
                 setWeekStats(statsResult.data.week)
+            }
+
+            if (vehiclesResult.success) {
+                setVehicles(vehiclesResult.data)
             }
         } catch (error) {
             console.error("Error loading dashboard data:", error)
@@ -63,6 +73,11 @@ export default function DashboardPage() {
 
     const handleReceiptCreated = () => {
         // Refresh data after creating a new receipt
+        loadData()
+    }
+
+    const handleVehicleCreated = () => {
+        // Refresh data after creating a new vehicle
         loadData()
     }
 
@@ -166,21 +181,48 @@ export default function DashboardPage() {
                     </Card>
                 </div>
 
+                {/* Vehicle Requirement Alert */}
+                {!isLoading && vehicles.length === 0 && (
+                    <Alert className="mb-6 border-orange-200 bg-orange-50">
+                        <AlertCircle className="h-4 w-4 text-orange-600" />
+                        <AlertDescription className="text-orange-800">
+                            <strong>Registe um veículo primeiro!</strong> Para criar faturas, precisa de ter pelo menos um veículo registado.
+                            <Button 
+                                variant="link" 
+                                className="p-0 h-auto font-semibold text-orange-600 hover:text-orange-700 ml-2"
+                                onClick={() => setShowVehicleModal(true)}
+                            >
+                                Registar veículo agora
+                            </Button>
+                        </AlertDescription>
+                    </Alert>
+                )}
+
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
                     <Button
                         onClick={() => setShowCreateModal(true)}
                         size="lg"
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 h-12 sm:h-14 px-6 sm:px-8"
+                        disabled={vehicles.length === 0}
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 h-12 sm:h-14 px-6 sm:px-8 disabled:opacity-50"
                     >
                         <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Nova Fatura
                     </Button>
                     <Button
+                        onClick={() => setShowVehicleModal(true)}
                         variant="outline"
                         size="lg"
-                        className="border-2 border-dashed border-slate-300 hover:border-green-500 hover:bg-green-50 h-12 sm:h-14 px-6 sm:px-8"
-                        disabled
+                        className="border-2 h-12 sm:h-14 px-6 sm:px-8"
+                    >
+                        <Car className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                        {vehicles.length === 0 ? "Registar Veículo" : "Gerir Veículos"}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        disabled={vehicles.length === 0}
+                        className="border-2 border-dashed border-slate-300 hover:border-green-500 hover:bg-green-50 h-12 sm:h-14 px-6 sm:px-8 disabled:opacity-50"
                     >
                         <QrCode className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         QR Code
@@ -327,6 +369,12 @@ export default function DashboardPage() {
                 open={showCreateModal}
                 onOpenChange={setShowCreateModal}
                 onSuccess={handleReceiptCreated}
+            />
+            
+            <VehicleModal
+                open={showVehicleModal}
+                onOpenChange={setShowVehicleModal}
+                onSuccess={handleVehicleCreated}
             />
         </div>
     )

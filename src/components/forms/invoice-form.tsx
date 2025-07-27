@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, FileText } from "lucide-react"
+import { Loader2, FileText, Car } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -15,11 +15,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { invoiceInputSchema, type InvoiceInput } from "@/lib/validators/invoice.schema"
 import { createInvoice } from "@/app/actions/invoice"
-import { SerializedReceipt } from "@/app/actions/types"
+import { getVehicles } from "@/app/actions/vehicle"
+import { SerializedReceipt, SerializedVehicle } from "@/app/actions/types"
 
 interface InvoiceFormProps {
   onSuccess?: (receipt: SerializedReceipt) => void
@@ -28,6 +36,8 @@ interface InvoiceFormProps {
 
 export function InvoiceForm({ onSuccess, onCancel }: InvoiceFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [vehicles, setVehicles] = useState<SerializedVehicle[]>([])
+  const [isLoadingVehicles, setIsLoadingVehicles] = useState(true)
 
   const form = useForm<InvoiceInput>({
     resolver: zodResolver(invoiceInputSchema),
@@ -37,19 +47,55 @@ export function InvoiceForm({ onSuccess, onCancel }: InvoiceFormProps) {
       destination: "",
       distance: "",
       amount: "",
+      vehicleId: "",
       notes: "",
     },
   })
 
+  // Load vehicles on component mount
+  useEffect(() => {
+    async function loadVehicles() {
+      try {
+        const result = await getVehicles()
+        if (result.success) {
+          setVehicles(result.data)
+          // Auto-select if only one vehicle
+          if (result.data.length === 1) {
+            form.setValue("vehicleId", result.data[0].id)
+          }
+        } else {
+          toast.error("Erro ao carregar veículos")
+        }
+      } catch (error) {
+        toast.error("Erro ao carregar veículos")
+        console.error("Error loading vehicles:", error)
+      } finally {
+        setIsLoadingVehicles(false)
+      }
+    }
+
+    loadVehicles()
+  }, [form])
+
   async function onSubmit(data: InvoiceInput) {
     try {
       setIsSubmitting(true)
+
+      // Validate that a vehicle is selected
+      if (!data.vehicleId || vehicles.length === 0) {
+        toast.error("Deve registar pelo menos um veículo antes de criar faturas")
+        return
+      }
 
       const result = await createInvoice(data)
 
       if (result.success) {
         toast.success(result.message)
         form.reset()
+        // Reset vehicle selection to first one if available
+        if (vehicles.length === 1) {
+          form.setValue("vehicleId", vehicles[0].id)
+        }
         onSuccess?.(result.data)
       } else {
         toast.error(result.message)
@@ -66,6 +112,44 @@ export function InvoiceForm({ onSuccess, onCancel }: InvoiceFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="vehicleId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Veículo</FormLabel>
+                <FormControl>
+                  <Select 
+                    onValueChange={field.onChange} 
+                    value={field.value}
+                    disabled={isSubmitting || isLoadingVehicles}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={
+                        isLoadingVehicles 
+                          ? "Carregando veículos..." 
+                          : vehicles.length === 0 
+                            ? "Nenhum veículo registado" 
+                            : "Selecione um veículo"
+                      } />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {vehicles.map((vehicle) => (
+                        <SelectItem key={vehicle.id} value={vehicle.id}>
+                          <div className="flex items-center space-x-2">
+                            <Car className="w-4 h-4" />
+                            <span>{vehicle.licensePlate} - {vehicle.make} {vehicle.model}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="clientName"
