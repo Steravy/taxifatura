@@ -1,6 +1,6 @@
-import { Vehicle } from "@/generated/prisma"
 import { generateVehicleSlug } from "@/lib/vehicle-utils"
 import { db } from "../db"
+import { Vehicle } from "../../../generated/prisma"
 
 
 export interface CreateVehicleData {

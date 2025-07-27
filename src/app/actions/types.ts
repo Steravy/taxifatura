@@ -1,4 +1,4 @@
-import { ReceiptStatus } from "@/generated/prisma";
+import { ReceiptStatus } from "../../../generated/prisma";
 
 export type SerializedReceipt = {
     id: string;

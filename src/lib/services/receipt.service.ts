@@ -1,4 +1,4 @@
-import { Receipt, ReceiptStatus } from "@/generated/prisma"
+import { Receipt, ReceiptStatus } from "../../../generated/prisma"
 import { db } from "../db"
 
 

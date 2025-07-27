@@ -1,8 +1,8 @@
 import { SerializedReceipt, SerializedVehicle } from "@/app/actions/types";
 import { BetterAuthErrorCode } from "@/components/auth/schemas";
-import { Receipt, User, Vehicle } from "@/generated/prisma";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Receipt, User, Vehicle } from "../../generated/prisma";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
