@@ -1,4 +1,5 @@
 import { PrismaClient, type Vehicle } from "@/generated/prisma"
+import { generateVehicleSlug } from "@/lib/vehicle-utils"
 
 // Initialize Prisma client (will be singleton in production)
 const prisma = new PrismaClient()
@@ -22,12 +23,16 @@ export class VehicleService {
    * Create a new vehicle
    */
   static async create(data: CreateVehicleData): Promise<Vehicle> {
+    // Generate unique slug for QR code URLs
+    const slug = generateVehicleSlug(data.licensePlate)
+    
     return prisma.vehicle.create({
       data: {
         licensePlate: data.licensePlate,
         make: data.make,
         model: data.model,
         color: data.color,
+        slug: slug,
         userId: data.userId,
       },
     })
@@ -64,6 +69,26 @@ export class VehicleService {
         userId,
         deletedAt: null,
       },
+    })
+  }
+
+  /**
+   * Get vehicle by slug (for public QR code pages)
+   */
+  static async findBySlug(slug: string): Promise<(Vehicle & { user: { name: string; email: string } }) | null> {
+    return prisma.vehicle.findFirst({
+      where: {
+        slug,
+        deletedAt: null,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        }
+      }
     })
   }
 
@@ -150,6 +175,53 @@ export class VehicleService {
         ] : undefined,
       },
     })
+  }
+
+  /**
+   * Get vehicle stats for dashboard
+   */
+  static async getVehicleStats(userId: string) {
+    const [vehicleCount, mostUsedVehicle] = await Promise.all([
+      // Total vehicle count
+      prisma.vehicle.count({
+        where: {
+          userId,
+          deletedAt: null,
+        },
+      }),
+      
+      // Most used vehicle (by receipt count)
+      prisma.vehicle.findFirst({
+        where: {
+          userId,
+          deletedAt: null,
+        },
+        include: {
+          _count: {
+            select: {
+              receipts: {
+                where: {
+                  deletedAt: null,
+                }
+              }
+            }
+          }
+        },
+        orderBy: {
+          receipts: {
+            _count: 'desc'
+          }
+        }
+      })
+    ])
+
+    return {
+      totalVehicles: vehicleCount,
+      mostUsedVehicle: mostUsedVehicle ? {
+        ...mostUsedVehicle,
+        receiptCount: mostUsedVehicle._count.receipts
+      } : null
+    }
   }
 }
 

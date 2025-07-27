@@ -148,3 +148,47 @@ export async function getStats(): Promise<ActionResult<{ today: { totalAmount: n
     }
   }
 }
+
+export async function markReceiptCompleted(receiptId: string): Promise<ActionResult<SerializedReceipt>> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        error: "Unauthorized",
+        message: "Sessão expirada. Faça login novamente."
+      }
+    }
+
+    // Update receipt status to COMPLETED
+    const updatedReceipt = await receiptService.updateStatus(receiptId, session.user.id, "COMPLETED")
+
+    if (!updatedReceipt) {
+      return {
+        success: false,
+        error: "Receipt not found",
+        message: "Recibo não encontrado ou não autorizado"
+      }
+    }
+
+    // Revalidate the dashboard page to reflect changes
+    revalidatePath("/dashboard")
+
+    return {
+      success: true,
+      data: serializeReceipt(updatedReceipt),
+      message: "Recibo marcado como concluído"
+    }
+  } catch (error) {
+    console.error("Error marking receipt as completed:", error)
+
+    return {
+      success: false,
+      error: "Erro ao atualizar recibo",
+      message: "Erro ao marcar recibo como concluído"
+    }
+  }
+}

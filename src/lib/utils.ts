@@ -21,10 +21,29 @@ export const getAuthErrorMessage = (error: Record<string, string>): string => {
   }
 };
 
-export function serializeReceipt(receipt: Receipt): SerializedReceipt {
+export function serializeReceipt(receipt: any): SerializedReceipt {
   return {
     ...receipt,
     amount: receipt.amount.toString(), // convert Decimal to string
+    vehicle: receipt.vehicle ? {
+      id: receipt.vehicle.id,
+      licensePlate: receipt.vehicle.licensePlate,
+      make: receipt.vehicle.make,
+      model: receipt.vehicle.model,
+      color: receipt.vehicle.color,
+    } : undefined,
+  }
+}
+
+export function serializeReceiptWithExtras(receipt: any): SerializedReceipt & {
+  vehicle: { id: string; licensePlate: string; make: string; model: string; color: string | null; slug: string }
+  user: { name: string; email: string }
+} {
+  return {
+    ...receipt,
+    amount: receipt.amount.toString(), // convert Decimal to string
+    vehicle: receipt.vehicle!,
+    user: receipt.user!,
   }
 }
 

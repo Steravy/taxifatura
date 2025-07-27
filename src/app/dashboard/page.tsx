@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Eye, Download, MoreHorizontal, Filter, Search, Car, AlertCircle } from "lucide-react"
+import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Eye, MoreHorizontal, Filter, Search, Car, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -10,8 +10,11 @@ import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { InvoiceModal } from "@/components/invoice-modal"
 import { VehicleModal } from "@/components/vehicle-modal"
+import { VehicleManagementSheet } from "@/components/vehicle-management-sheet"
+import { DashboardHeader } from "@/components/dashboard-header"
+import { ReceiptStatusButton } from "@/components/receipt-status-button"
 import { getReceipts, getStats } from "@/app/actions/invoice"
-import { getVehicles } from "@/app/actions/vehicle"
+import { getVehicles, getVehicleStats } from "@/app/actions/vehicle"
 import { SerializedReceipt, SerializedVehicle } from "../actions/types"
 import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
@@ -29,8 +32,10 @@ export default function DashboardPage() {
 
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showVehicleModal, setShowVehicleModal] = useState(false)
+    const [showVehicleSheet, setShowVehicleSheet] = useState(false)
     const [receipts, setReceipts] = useState<SerializedReceipt[]>([])
     const [vehicles, setVehicles] = useState<SerializedVehicle[]>([])
+    const [vehicleStats, setVehicleStats] = useState({ totalVehicles: 0, mostUsedVehicle: null })
     const [todayStats, setTodayStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [weekStats, setWeekStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [searchTerm, setSearchTerm] = useState("")
@@ -40,11 +45,12 @@ export default function DashboardPage() {
         try {
             setIsLoading(true)
 
-            // Load receipts, stats, and vehicles in parallel
-            const [receiptsResult, statsResult, vehiclesResult] = await Promise.all([
+            // Load receipts, stats, vehicles, and vehicle stats in parallel
+            const [receiptsResult, statsResult, vehiclesResult, vehicleStatsResult] = await Promise.all([
                 getReceipts(1, searchTerm || undefined),
                 getStats(),
-                getVehicles()
+                getVehicles(),
+                getVehicleStats()
             ])
 
             if (receiptsResult.success) {
@@ -58,6 +64,10 @@ export default function DashboardPage() {
 
             if (vehiclesResult.success) {
                 setVehicles(vehiclesResult.data)
+            }
+
+            if (vehicleStatsResult.success) {
+                setVehicleStats(vehicleStatsResult.data)
             }
         } catch (error) {
             console.error("Error loading dashboard data:", error)
@@ -81,40 +91,23 @@ export default function DashboardPage() {
         loadData()
     }
 
+    const handleVehicleManagement = () => {
+        if (vehicles.length === 0) {
+            setShowVehicleModal(true)
+        } else {
+            setShowVehicleSheet(true)
+        }
+    }
+
     const filteredReceipts = receipts
 
     return (
         <div className="min-h-screen bg-slate-50/50">
-            {/* Header */}
-            <header className="border-b bg-white sticky top-0 z-40 shadow-sm">
-                <div className="container mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center">
-                                <FileText className="w-6 h-6 text-white" />
-                            </div>
-                            <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                                    TaxiFatura
-                                </h1>
-                                <p className="text-sm text-slate-500">Dashboard</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <div className="hidden sm:flex items-center space-x-2 text-sm">
-                                <span className="font-medium">{session?.user?.name || "..."}</span>
-                            </div>
-                            <div className="w-10 h-10 bg-gradient-to-r from-slate-200 to-slate-300 rounded-full flex items-center justify-center">
-                                <User className="w-5 h-5 text-slate-600" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <DashboardHeader />
 
             <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-full xl:max-w-[1600px]">
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
                     <Card className="border bg-gradient-to-br from-blue-600 to-cyan-600 text-white">
                         <CardContent className="p-4 sm:p-6">
                             <div className="flex items-center justify-between">
@@ -179,6 +172,27 @@ export default function DashboardPage() {
                             </div>
                         </CardContent>
                     </Card>
+
+                    <Card className="border bg-white">
+                        <CardContent className="p-4 sm:p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-slate-600 text-sm font-medium">Veículos</p>
+                                    <p className="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">
+                                        {isLoading ? "..." : vehicleStats.totalVehicles}
+                                    </p>
+                                    {vehicleStats.mostUsedVehicle && (
+                                        <p className="text-xs text-slate-500 mt-1">
+                                            Mais usado: {vehicleStats.mostUsedVehicle.licensePlate}
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-50 rounded-lg flex items-center justify-center">
+                                    <Car className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Vehicle Requirement Alert */}
@@ -210,7 +224,7 @@ export default function DashboardPage() {
                         Nova Fatura
                     </Button>
                     <Button
-                        onClick={() => setShowVehicleModal(true)}
+                        onClick={handleVehicleManagement}
                         variant="outline"
                         size="lg"
                         className="border-2 h-12 sm:h-14 px-6 sm:px-8"
@@ -281,13 +295,15 @@ export default function DashboardPage() {
                                 )}
                             </div>
                         ) : (
-                            <div className="overflow-x-auto">
-                                <Table>
+                            <div className="sm:overflow-x-auto sm:p-0 p-4">
+                                <div className="sm:border-0 border rounded-lg sm:shadow-none shadow-sm bg-white">
+                                    <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
                                             <TableHead className="font-semibold min-w-[100px]">ID</TableHead>
                                             <TableHead className="font-semibold min-w-[150px]">Cliente</TableHead>
                                             <TableHead className="font-semibold min-w-[200px]">Trajeto</TableHead>
+                                            <TableHead className="font-semibold min-w-[140px]">Veículo</TableHead>
                                             <TableHead className="font-semibold min-w-[120px]">Data/Hora</TableHead>
                                             <TableHead className="font-semibold min-w-[100px]">Distância</TableHead>
                                             <TableHead className="font-semibold min-w-[100px]">Valor</TableHead>
@@ -313,6 +329,19 @@ export default function DashboardPage() {
                                                         <MapPin className="w-3 h-3 text-slate-400 flex-shrink-0" />
                                                         <span className="text-slate-600 truncate max-w-[80px]">{receipt.destination}</span>
                                                     </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {receipt.vehicle ? (
+                                                        <div className="flex items-center space-x-2">
+                                                            <Car className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                                                            <div className="text-sm">
+                                                                <div className="font-medium font-mono">{receipt.vehicle.licensePlate}</div>
+                                                                <div className="text-slate-500 text-xs">{receipt.vehicle.make} {receipt.vehicle.model}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-slate-400 text-sm">N/A</span>
+                                                    )}
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="text-sm">
@@ -347,9 +376,11 @@ export default function DashboardPage() {
                                                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                                             <Eye className="w-4 h-4" />
                                                         </Button>
-                                                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                                            <Download className="w-4 h-4" />
-                                                        </Button>
+                                                        <ReceiptStatusButton 
+                                                            receiptId={receipt.id}
+                                                            currentStatus={receipt.status}
+                                                            onStatusUpdate={loadData}
+                                                        />
                                                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                                             <MoreHorizontal className="w-4 h-4" />
                                                         </Button>
@@ -359,6 +390,7 @@ export default function DashboardPage() {
                                         ))}
                                     </TableBody>
                                 </Table>
+                                </div>
                             </div>
                         )}
                     </CardContent>
@@ -375,6 +407,12 @@ export default function DashboardPage() {
                 open={showVehicleModal}
                 onOpenChange={setShowVehicleModal}
                 onSuccess={handleVehicleCreated}
+            />
+
+            <VehicleManagementSheet
+                open={showVehicleSheet}
+                onOpenChange={setShowVehicleSheet}
+                onVehicleChange={loadData}
             />
         </div>
     )

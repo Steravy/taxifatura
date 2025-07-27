@@ -17,24 +17,26 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { vehicleInputSchema, type VehicleInput } from "@/lib/validators/vehicle.schema"
-import { createVehicle } from "@/app/actions/vehicle"
+import { createVehicle, updateVehicle } from "@/app/actions/vehicle"
 import { SerializedVehicle } from "@/app/actions/types"
 
 interface VehicleFormProps {
+  vehicle?: SerializedVehicle // For editing existing vehicle
   onSuccess?: (vehicle: SerializedVehicle) => void
   onCancel?: () => void
 }
 
-export function VehicleForm({ onSuccess, onCancel }: VehicleFormProps) {
+export function VehicleForm({ vehicle, onSuccess, onCancel }: VehicleFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const isEditing = !!vehicle
 
   const form = useForm<VehicleInput>({
     resolver: zodResolver(vehicleInputSchema),
     defaultValues: {
-      licensePlate: "",
-      make: "",
-      model: "",
-      color: "",
+      licensePlate: vehicle?.licensePlate || "",
+      make: vehicle?.make || "",
+      model: vehicle?.model || "",
+      color: vehicle?.color || "",
     },
   })
 
@@ -42,17 +44,21 @@ export function VehicleForm({ onSuccess, onCancel }: VehicleFormProps) {
     try {
       setIsSubmitting(true)
 
-      const result = await createVehicle(data)
+      const result = isEditing 
+        ? await updateVehicle(vehicle!.id, data)
+        : await createVehicle(data)
 
       if (result.success) {
         toast.success(result.message)
-        form.reset()
+        if (!isEditing) {
+          form.reset()
+        }
         onSuccess?.(result.data)
       } else {
         toast.error(result.message)
       }
     } catch (error) {
-      toast.error("Erro inesperado ao registar veículo")
+      toast.error(`Erro inesperado ao ${isEditing ? 'atualizar' : 'registar'} veículo`)
       console.error("Form submission error:", error)
     } finally {
       setIsSubmitting(false)
@@ -159,12 +165,12 @@ export function VehicleForm({ onSuccess, onCancel }: VehicleFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Registando...
+                {isEditing ? "Atualizando..." : "Registando..."}
               </>
             ) : (
               <>
                 <Car className="w-4 h-4 mr-2" />
-                Registar Veículo
+                {isEditing ? "Atualizar Veículo" : "Registar Veículo"}
               </>
             )}
           </Button>

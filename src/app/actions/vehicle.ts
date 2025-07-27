@@ -238,3 +238,36 @@ export async function deleteVehicle(id: string): Promise<ActionResult<boolean>> 
     }
   }
 }
+
+export async function getVehicleStats(): Promise<ActionResult<{totalVehicles: number, mostUsedVehicle: any}>> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        error: "Unauthorized",
+        message: "Sessão expirada. Faça login novamente."
+      }
+    }
+
+    // Get vehicle stats
+    const stats = await vehicleService.getVehicleStats(session.user.id)
+
+    return {
+      success: true,
+      data: stats,
+      message: "Estatísticas carregadas com sucesso"
+    }
+  } catch (error) {
+    console.error("Error fetching vehicle stats:", error)
+
+    return {
+      success: false,
+      error: "Erro ao carregar estatísticas",
+      message: "Erro ao carregar estatísticas"
+    }
+  }
+}

@@ -16,6 +16,13 @@ export type SerializedReceipt = {
     deletedAt: Date | null;
     userId: string;
     vehicleId: string;
+    vehicle?: {
+        id: string;
+        licensePlate: string;
+        make: string;
+        model: string;
+        color: string | null;
+    };
 };
 
 export type SerializedVehicle = {
@@ -24,6 +31,7 @@ export type SerializedVehicle = {
     make: string;
     model: string;
     color: string | null;
+    slug: string;
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null;

@@ -93,6 +93,7 @@ model Vehicle {
   make         String   // e.g., "Toyota"
   model        String   // e.g., "Corolla 2020"
   color        String?  // Optional, e.g., "Branco"
+  slug         String   @unique // URL-friendly identifier for QR codes
   
   // Audit fields
   createdAt    DateTime @default(now())
@@ -107,6 +108,7 @@ model Vehicle {
   // Indexes and constraints
   @@unique([licensePlate])
   @@index([userId])
+  @@index([slug])
   @@index([deletedAt])
   @@map("vehicle")
 }

@@ -22,14 +22,16 @@ import { SerializedVehicle } from "@/app/actions/types"
 interface VehicleModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  vehicle?: SerializedVehicle // For editing existing vehicle
   onSuccess?: (vehicle: SerializedVehicle) => void
 }
 
-export function VehicleModal({ open, onOpenChange, onSuccess }: VehicleModalProps) {
+export function VehicleModal({ open, onOpenChange, vehicle, onSuccess }: VehicleModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)")
+  const isEditing = !!vehicle
 
-  const handleSuccess = (vehicle: SerializedVehicle) => {
-    onSuccess?.(vehicle)
+  const handleSuccess = (updatedVehicle: SerializedVehicle) => {
+    onSuccess?.(updatedVehicle)
     onOpenChange(false)
   }
 
@@ -44,11 +46,15 @@ export function VehicleModal({ open, onOpenChange, onSuccess }: VehicleModalProp
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Car className="w-5 h-5" />
-              Registar Veículo
+              {isEditing ? "Editar Veículo" : "Registar Veículo"}
             </DialogTitle>
           </DialogHeader>
           <div className="px-1">
-            <VehicleForm onSuccess={handleSuccess} onCancel={handleCancel} />
+            <VehicleForm 
+              vehicle={vehicle} 
+              onSuccess={handleSuccess} 
+              onCancel={handleCancel} 
+            />
           </div>
         </DialogContent>
       </Dialog>
@@ -62,11 +68,15 @@ export function VehicleModal({ open, onOpenChange, onSuccess }: VehicleModalProp
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-center gap-2">
               <Car className="w-5 h-5" />
-              Registar Veículo
+              {isEditing ? "Editar Veículo" : "Registar Veículo"}
             </DrawerTitle>
           </DrawerHeader>
           <div className="p-4 pb-8">
-            <VehicleForm onSuccess={handleSuccess} onCancel={handleCancel} />
+            <VehicleForm 
+              vehicle={vehicle} 
+              onSuccess={handleSuccess} 
+              onCancel={handleCancel} 
+            />
           </div>
         </div>
       </DrawerContent>

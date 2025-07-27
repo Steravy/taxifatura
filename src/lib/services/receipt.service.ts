@@ -14,6 +14,19 @@ export interface CreateReceiptData {
   userId: string
 }
 
+export interface CreatePublicReceiptData {
+  clientName: string
+  origin: string
+  destination: string
+  distance?: number
+  amount: number
+  tripDate: Date
+  tripTime: string
+  notes?: string
+  vehicleId: string
+  userId: string
+}
+
 export interface ReceiptFilters {
   userId: string
   status?: ReceiptStatus
@@ -54,6 +67,44 @@ export class ReceiptService {
   }
 
   /**
+   * Create a public receipt (from QR code form submission)
+   */
+  static async createPublic(data: CreatePublicReceiptData): Promise<Receipt> {
+    return prisma.receipt.create({
+      data: {
+        clientName: data.clientName,
+        origin: data.origin,
+        destination: data.destination,
+        distance: data.distance,
+        amount: data.amount.toString(),
+        vehicleId: data.vehicleId,
+        notes: data.notes,
+        userId: data.userId,
+        tripDate: data.tripDate,
+        tripTime: data.tripTime,
+        status: "PENDING", // Public receipts start as pending for driver review
+      },
+      include: {
+        vehicle: {
+          select: {
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
+            slug: true,
+          }
+        },
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        }
+      }
+    })
+  }
+
+  /**
    * Get receipts with filters and pagination
    */
   static async findMany(filters: ReceiptFilters, page = 1, limit = 50): Promise<Receipt[]> {
@@ -72,21 +123,27 @@ export class ReceiptService {
           { clientName: { contains: filters.search, mode: "insensitive" } },
           { origin: { contains: filters.search, mode: "insensitive" } },
           { destination: { contains: filters.search, mode: "insensitive" } },
+          { vehicle: { licensePlate: { contains: filters.search, mode: "insensitive" } } },
+          { vehicle: { make: { contains: filters.search, mode: "insensitive" } } },
+          { vehicle: { model: { contains: filters.search, mode: "insensitive" } } },
         ] : undefined,
+      },
+      include: {
+        vehicle: {
+          select: {
+            id: true,
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
+          }
+        }
       },
       orderBy: {
         tripDate: "desc",
       },
       skip,
       take: limit,
-      // include: {
-      //   user: {
-      //     select: {
-      //       name: true,
-      //       email: true,
-      //     }
-      //   }
-      // }
     })
   }
 
@@ -105,6 +162,45 @@ export class ReceiptService {
           select: {
             name: true,
             email: true,
+          }
+        },
+        vehicle: {
+          select: {
+            id: true,
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Get receipt by ID for public access (no user ID required)
+   */
+  static async findByIdPublic(id: string): Promise<Receipt | null> {
+    return prisma.receipt.findFirst({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        },
+        vehicle: {
+          select: {
+            id: true,
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
+            slug: true,
           }
         }
       }
@@ -130,6 +226,40 @@ export class ReceiptService {
           select: {
             name: true,
             email: true,
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Update receipt status
+   */
+  static async updateStatus(id: string, userId: string, status: ReceiptStatus): Promise<Receipt | null> {
+    // Verify ownership
+    const receipt = await this.findById(id, userId)
+    if (!receipt) return null
+
+    return prisma.receipt.update({
+      where: { id },
+      data: {
+        status: status,
+        updatedAt: new Date(),
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        },
+        vehicle: {
+          select: {
+            id: true,
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
           }
         }
       }
