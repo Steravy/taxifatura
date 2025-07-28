@@ -17,6 +17,6 @@ export async function generateQRCodeDataUrl(text: string): Promise<string> {
 }
 
 export function getReceiptViewUrl(receiptId: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://taxifatura.cv'
+  const baseUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'https://taxifatura.cv'
   return `${baseUrl}/receipt/${receiptId}`
 }

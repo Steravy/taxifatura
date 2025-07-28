@@ -2,6 +2,7 @@
 
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer'
 import { ReceiptData } from './receipt-success-actions'
+import { getReceiptViewUrl } from '@/lib/qr-utils'
 
 const styles = StyleSheet.create({
   page: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 1.4
   },
-  
+
   // Header Section
   header: {
     flexDirection: 'row',
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120
   },
-  
+
   // Receipt Info Section
   receiptInfo: {
     flexDirection: 'row',
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: 'bold'
   },
-  
+
   // Service Details Table
   serviceTable: {
     marginBottom: 40
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right'
   },
-  
+
   // Totals Section
   totalsSection: {
     marginTop: 20,
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000'
   },
-  
+
   // Footer Section
   footer: {
     position: 'absolute',
@@ -172,6 +173,23 @@ const styles = StyleSheet.create({
     fontSize: 7,
     color: '#666666',
     lineHeight: 1.3
+  },
+  footerUrl: {
+    fontSize: 7,
+    color: '#666666',
+    lineHeight: 1.3
+  },
+  
+  // Disclaimer Section
+  disclaimer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 40,
+    right: 40,
+    textAlign: 'center',
+    fontSize: 6,
+    color: '#999999',
+    lineHeight: 1.2
   }
 })
 
@@ -198,8 +216,8 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
     })
   }
 
-  const receiptUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://taxifatura.cv'}/receipt/${receipt.id}`
-  
+  const receiptUrl = getReceiptViewUrl(receipt.id)
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -213,7 +231,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               www.taxifatura.cv
             </Text>
           </View>
-          
+
           {/* QR Code */}
           <View style={styles.qrCodeSection}>
             {qrCodeDataUrl ? (
@@ -232,12 +250,12 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
             <Text style={styles.infoLabel}>Recibo</Text>
             <Text style={styles.infoValue}>#{receipt.id.slice(-8).toUpperCase()}</Text>
           </View>
-          
+
           <View style={styles.receiptInfoColumn}>
             <Text style={styles.infoLabel}>Data</Text>
             <Text style={styles.infoValue}>{formatDate(receipt.tripDate)}</Text>
           </View>
-          
+
           <View style={styles.receiptInfoColumn}>
             <Text style={styles.infoLabel}>Hora</Text>
             <Text style={styles.infoValue}>{receipt.tripTime}</Text>
@@ -258,7 +276,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               <Text>Valor</Text>
             </View>
           </View>
-          
+
           {/* Service Row */}
           <View style={styles.tableRow}>
             <View style={[styles.tableCell, styles.serviceName]}>
@@ -276,7 +294,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               <Text>{formatCurrency(receipt.amount)}</Text>
             </View>
           </View>
-          
+
           {/* Vehicle Info Row */}
           <View style={styles.tableRow}>
             <View style={[styles.tableCell, styles.serviceName]}>
@@ -301,7 +319,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
             <Text style={styles.totalLabel}>Subtotal</Text>
             <Text style={styles.totalValue}>{formatCurrency(receipt.amount)}</Text>
           </View>
-          
+
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>IVA</Text>
             <Text style={styles.totalValue}>
@@ -309,7 +327,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               Art. 9º CIVA
             </Text>
           </View>
-          
+
           <View style={styles.finalTotal}>
             <Text style={styles.finalTotalLabel}>TOTAL</Text>
             <Text style={styles.finalTotalValue}>{formatCurrency(receipt.amount)}</Text>
@@ -326,7 +344,7 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               Cabo Verde
             </Text>
           </View>
-          
+
           <View style={styles.footerColumn}>
             <Text style={styles.footerTitle}>Condutor</Text>
             <Text style={styles.footerText}>
@@ -335,16 +353,21 @@ export function MinimalReceiptPDFTemplate({ receipt, qrCodeDataUrl }: MinimalRec
               de Passageiros
             </Text>
           </View>
-          
+
           <View style={styles.footerColumn}>
-            <Text style={styles.footerTitle}>QR Code</Text>
-            <Text style={styles.footerText}>
-              Escaneie o código QR acima{'\n'}
-              para ver este recibo online{'\n'}
+            <Text style={styles.footerTitle}>Validade</Text>
+            <Text style={styles.footerText} hyphenationCallback={(word: string) => [word]}>
+              Escaneie o QR Code acima{'\n'}
+              ou consulte no link:{'\n'}
               {receiptUrl}
             </Text>
           </View>
         </View>
+
+        {/* Disclaimer */}
+        <Text style={styles.disclaimer}>
+          Este recibo é uma comprovação de prestação de serviço de transporte e não uma nota fiscal. A validade deste documento depende das políticas da entidade que o solicita.
+        </Text>
       </Page>
     </Document>
   )

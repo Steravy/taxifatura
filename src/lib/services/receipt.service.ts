@@ -75,7 +75,7 @@ export class ReceiptService {
         origin: data.origin,
         destination: data.destination,
         distance: data.distance,
-        amount: data.amount.toString(),
+        amount: data.amount,
         vehicleId: data.vehicleId,
         notes: data.notes,
         userId: data.userId,
