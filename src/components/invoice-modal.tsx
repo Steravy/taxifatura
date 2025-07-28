@@ -57,15 +57,17 @@ export function InvoiceModal({ open, onOpenChange, onSuccess }: InvoiceModalProp
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
+      <DrawerContent className="max-h-[96vh] flex flex-col">
+        <div className="flex-shrink-0">
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-center gap-2">
               <FileText className="w-5 h-5" />
               Nova Fatura
             </DrawerTitle>
           </DrawerHeader>
-          <div className="p-4 pb-8">
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 pb-safe">
+          <div className="mx-auto w-full max-w-lg pb-8">
             <InvoiceForm onSuccess={handleSuccess} onCancel={handleCancel} />
           </div>
         </div>

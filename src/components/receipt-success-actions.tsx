@@ -5,17 +5,17 @@ import { Download, CheckCircle } from "lucide-react"
 import { pdf } from '@react-pdf/renderer'
 import { ReceiptPDFTemplate } from './receipt-pdf-template'
 
-interface ReceiptData {
+export interface ReceiptData {
   id: string
   clientName: string
   origin: string
   destination: string
-  distance?: number
+  distance: number | null
   amount: string
   status: string
   tripDate: string | Date
   tripTime: string
-  notes?: string
+  notes: string | null
   vehicle: {
     make: string
     model: string
@@ -28,11 +28,11 @@ interface ReceiptData {
 }
 
 interface ReceiptSuccessActionsProps {
-  receiptId: string
+  receiptId?: string
   receipt: ReceiptData
 }
 
-export function ReceiptSuccessActions({ receiptId: _receiptId, receipt }: ReceiptSuccessActionsProps) {
+export function ReceiptSuccessActions({ receipt }: ReceiptSuccessActionsProps) {
   const handlePrint = async () => {
     try {
       const blob = await pdf(<ReceiptPDFTemplate receipt={receipt} />).toBlob()

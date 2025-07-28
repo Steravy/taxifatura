@@ -34,8 +34,8 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
             <p className="text-red-600 mb-4">
               {!receiptResult.success ? receiptResult.message : vehicleResult.message}
             </p>
-            <BackButton 
-              variant="outline" 
+            <BackButton
+              variant="outline"
               className="border-red-200 text-red-700 hover:bg-red-50"
             >
               Voltar
@@ -227,7 +227,7 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
         </Card>
 
         {/* Action Buttons */}
-        <ReceiptSuccessActions receiptId={receipt.id} receipt={{...receipt, vehicle}} />
+        <ReceiptSuccessActions receiptId={receipt.id} receipt={{ ...receipt, vehicle: { make: vehicle.make, model: vehicle.model, licensePlate: vehicle.licensePlate, color: vehicle.color!, user: { name: vehicle.user.name } } }} />
 
         {/* Footer */}
         <div className="text-center text-sm text-slate-500">

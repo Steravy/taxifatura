@@ -1,6 +1,7 @@
 "use client"
 
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
+import { ReceiptData } from './receipt-success-actions'
 
 // Register fonts if needed (optional)
 // Font.register({
@@ -103,27 +104,27 @@ const styles = StyleSheet.create({
   }
 })
 
-interface ReceiptData {
-  id: string
-  clientName: string
-  origin: string
-  destination: string
-  distance?: number
-  amount: string
-  status: string
-  tripDate: string | Date
-  tripTime: string
-  notes?: string
-  vehicle: {
-    make: string
-    model: string
-    licensePlate: string
-    color?: string
-    user: {
-      name: string
-    }
-  }
-}
+// interface ReceiptData {
+//   id: string
+//   clientName: string
+//   origin: string
+//   destination: string
+//   distance?: number
+//   amount: string
+//   status: string
+//   tripDate: string | Date
+//   tripTime: string
+//   notes?: string
+//   vehicle: {
+//     make: string
+//     model: string
+//     licensePlate: string
+//     color?: string
+//     user: {
+//       name: string
+//     }
+//   }
+// }
 
 interface ReceiptPDFTemplateProps {
   receipt: ReceiptData

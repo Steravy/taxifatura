@@ -269,7 +269,7 @@ export function InvoiceForm({ onSuccess, onCancel }: InvoiceFormProps) {
           />
         </div>
 
-        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 pb-safe">
           {onCancel && (
             <Button
               type="button"
