@@ -2,15 +2,51 @@
 
 import { Button } from "@/components/ui/button"
 import { Download, CheckCircle } from "lucide-react"
+import { pdf } from '@react-pdf/renderer'
+import { ReceiptPDFTemplate } from './receipt-pdf-template'
+
+interface ReceiptData {
+  id: string
+  clientName: string
+  origin: string
+  destination: string
+  distance?: number
+  amount: string
+  status: string
+  tripDate: string | Date
+  tripTime: string
+  notes?: string
+  vehicle: {
+    make: string
+    model: string
+    licensePlate: string
+    color?: string
+    user: {
+      name: string
+    }
+  }
+}
 
 interface ReceiptSuccessActionsProps {
   receiptId: string
+  receipt: ReceiptData
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function ReceiptSuccessActions({ receiptId: _receiptId }: ReceiptSuccessActionsProps) {
-  const handlePrint = () => {
-    window.print()
+export function ReceiptSuccessActions({ receiptId: _receiptId, receipt }: ReceiptSuccessActionsProps) {
+  const handlePrint = async () => {
+    try {
+      const blob = await pdf(<ReceiptPDFTemplate receipt={receipt} />).toBlob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `recibo-${receipt.id.slice(-8).toUpperCase()}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+    }
   }
 
   const handleGoHome = () => {

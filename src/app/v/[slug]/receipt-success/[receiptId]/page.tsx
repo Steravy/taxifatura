@@ -227,7 +227,7 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
         </Card>
 
         {/* Action Buttons */}
-        <ReceiptSuccessActions receiptId={receipt.id} />
+        <ReceiptSuccessActions receiptId={receipt.id} receipt={{...receipt, vehicle}} />
 
         {/* Footer */}
         <div className="text-center text-sm text-slate-500">
