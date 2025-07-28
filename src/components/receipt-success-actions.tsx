@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Download, CheckCircle } from "lucide-react"
 import { pdf } from '@react-pdf/renderer'
-import { ReceiptPDFTemplate } from './receipt-pdf-template'
+import { MinimalReceiptPDFTemplate } from './minimal-receipt-pdf-template'
+import { generateQRCodeDataUrl, getReceiptViewUrl } from '@/lib/qr-utils'
 
 export interface ReceiptData {
   id: string
@@ -35,7 +36,15 @@ interface ReceiptSuccessActionsProps {
 export function ReceiptSuccessActions({ receipt }: ReceiptSuccessActionsProps) {
   const handlePrint = async () => {
     try {
-      const blob = await pdf(<ReceiptPDFTemplate receipt={receipt} />).toBlob()
+      // Generate QR code for receipt viewing page
+      const receiptUrl = getReceiptViewUrl(receipt.id)
+      const qrCodeDataUrl = await generateQRCodeDataUrl(receiptUrl)
+      
+      // Generate PDF with QR code
+      const blob = await pdf(
+        <MinimalReceiptPDFTemplate receipt={receipt} qrCodeDataUrl={qrCodeDataUrl} />
+      ).toBlob()
+      
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
