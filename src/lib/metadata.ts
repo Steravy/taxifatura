@@ -17,7 +17,6 @@ export function createMetadata({
   description,
   image,
   url,
-  noIndex = false,
   type = 'website'
 }: {
   title?: string
