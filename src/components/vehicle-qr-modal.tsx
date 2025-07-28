@@ -186,7 +186,7 @@ export function VehicleQRModal({ vehicle, open, onOpenChange }: VehicleQRModalPr
             </div>
           </div>
           {/* Action Button at bottom for drawer */}
-          <div className="p-4 pt-0 pb-8">
+          <div className="p-4 pt-6 pb-8">
             <Button
               variant="outline"
               onClick={handleDownloadQR}

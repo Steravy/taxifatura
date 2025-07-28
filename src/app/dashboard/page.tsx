@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { InvoiceModal } from "@/components/invoice-modal"
 import { VehicleModal } from "@/components/vehicle-modal"
 import { VehicleManagementSheet } from "@/components/vehicle-management-sheet"
+import { VehicleQRSelectionSheet } from "@/components/vehicle-qr-selection-sheet"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { ReceiptStatusButton } from "@/components/receipt-status-button"
 import { getReceipts, getStats } from "@/app/actions/invoice"
@@ -33,6 +34,7 @@ export default function DashboardPage() {
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showVehicleModal, setShowVehicleModal] = useState(false)
     const [showVehicleSheet, setShowVehicleSheet] = useState(false)
+    const [showQRSelectionSheet, setShowQRSelectionSheet] = useState(false)
     const [receipts, setReceipts] = useState<SerializedReceipt[]>([])
     const [vehicles, setVehicles] = useState<SerializedVehicle[]>([])
     const [vehicleStats, setVehicleStats] = useState({ totalVehicles: 0, mostUsedVehicle: null })
@@ -234,16 +236,14 @@ export default function DashboardPage() {
                         {vehicles.length === 0 ? "Registar Veículo" : "Gerir Veículos"}
                     </Button>
                     <Button
+                        onClick={() => setShowQRSelectionSheet(true)}
                         variant="outline"
                         size="lg"
                         disabled={vehicles.length === 0}
-                        className="border-2 border-dashed border-slate-300 hover:border-green-500 hover:bg-green-50 h-12 sm:h-14 px-6 sm:px-8 disabled:opacity-50"
+                        className="border-2 h-12 sm:h-14 px-6 sm:px-8 disabled:opacity-50"
                     >
                         <QrCode className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         QR Code
-                        <Badge variant="secondary" className="ml-2 text-xs">
-                            Em Breve
-                        </Badge>
                     </Button>
                 </div>
 
@@ -414,6 +414,11 @@ export default function DashboardPage() {
                 open={showVehicleSheet}
                 onOpenChange={setShowVehicleSheet}
                 onVehicleChange={loadData}
+            />
+
+            <VehicleQRSelectionSheet
+                open={showQRSelectionSheet}
+                onOpenChange={setShowQRSelectionSheet}
             />
         </div>
     )
