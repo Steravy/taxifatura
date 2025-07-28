@@ -1,4 +1,4 @@
-import { AlertCircle, Receipt } from "lucide-react"
+import { AlertCircle } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { BackButton } from "@/components/back-button"
 import { WebReceiptTemplate } from "@/components/web-receipt-template"
