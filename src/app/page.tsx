@@ -13,7 +13,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <Header />
+      {/* <Header /> */}
 
       <HeroSection />
 
@@ -119,8 +119,7 @@ export default function LandingPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-800">Mais Confiança dos Clientes</h3>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                    Documentos profissionais criam confiança instantânea e abrem portas a novos negócios.
-                    Clientes empresariais e turistas valorizam a organização.
+                    Documentos profissionais geram confiança e atraem clientes que valorizam organização, como empresas e turistas.
                   </p>
                 </div>
               </div>
@@ -228,7 +227,7 @@ export default function LandingPage() {
           </div>
 
           <div className="border-t mt-6 md:mt-8 pt-6 md:pt-8 text-center text-slate-500 text-xs md:text-sm">
-            <p>&copy; 2024 TaxiFatura. Feito com ❤️ para os taxistas de Cabo Verde.</p>
+            <p>&copy; 2025 TaxiFatura. Feito com ❤️ para os taxistas de Cabo Verde.</p>
           </div>
         </div>
       </footer>
