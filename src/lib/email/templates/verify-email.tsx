@@ -31,6 +31,7 @@ export const VerifyEmailTemplate = ({
                         width="40"
                         height="33"
                         alt="Dropbox"
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         style={image as any}
                     />
                     <Section>

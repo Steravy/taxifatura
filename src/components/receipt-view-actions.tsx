@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Download, Mail } from "lucide-react"
+import { Download } from "lucide-react"
 import { SendReceiptEmailModal } from "@/components/send-receipt-email-modal"
 import { pdf } from '@react-pdf/renderer'
 import { MinimalReceiptPDFTemplate } from './minimal-receipt-pdf-template'
@@ -61,9 +61,9 @@ export function ReceiptViewActions({ receipt }: ReceiptViewActionsProps) {
     }
   }
 
-  const handleSendEmail = () => {
-    setIsEmailModalOpen(true)
-  }
+  // const handleSendEmail = () => {
+  //   setIsEmailModalOpen(true)
+  // }
 
   return (
     <>

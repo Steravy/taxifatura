@@ -106,6 +106,7 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
     try {
 
       const baseUrl = process.env.BETTER_AUTH_URL;
+      const downloadLink = `${baseUrl}/receipt/${receipt.id}`;
 
       const vehicle = await VehicleService.findBySlug(validatedData.vehicleSlug);
 
@@ -115,7 +116,7 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
 
         await sendReceiptEmail({
           username: receipt.clientName,
-          downloadLink: `${baseUrl}/receipt/${receipt.id}`,
+          downloadLink,
           trip: `${receipt.origin} - ${receipt.destination}`,
           receiptIssuerMail: email,
           vehicle: vehicleData

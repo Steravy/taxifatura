@@ -1,6 +1,5 @@
 import {
     Body,
-    Button,
     Container,
     Head,
     Html,
@@ -125,14 +124,14 @@ const button = {
     padding: '12px 24px',
 };
 
-const links = {
-    textAlign: 'center' as const,
-};
+// const links = {
+//     textAlign: 'center' as const,
+// };
 
-const link = {
-    color: '#0366d6',
-    fontSize: '12px',
-};
+// const link = {
+//     color: '#0366d6',
+//     fontSize: '12px',
+// };
 
 const footer = {
     color: '#6a737d',
