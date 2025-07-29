@@ -23,7 +23,7 @@ export function HeroSection() {
               <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                 Perca Clientes
               </span>
-              <span className="block">Por Não Ter Recibo</span>
+              <span className="block">Por Não Ter Recibos</span>
             </h1>
 
             <div className="space-y-3 md:space-y-4 max-w-2xl mx-auto">
