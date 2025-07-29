@@ -52,7 +52,7 @@ export default function LandingPage() {
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm md:text-base font-bold flex-shrink-0">
                     3
                   </div>
-                  <p className="text-base md:text-lg text-slate-700 leading-relaxed">Gere a fatura instantaneamente</p>
+                  <p className="text-base md:text-lg text-slate-700 leading-relaxed">Crie o recibo instantaneamente</p>
                 </div>
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm md:text-base font-bold flex-shrink-0">
@@ -88,7 +88,7 @@ export default function LandingPage() {
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-green-600 text-white rounded-full flex items-center justify-center text-sm md:text-base font-bold flex-shrink-0">
                     3
                   </div>
-                  <p className="text-base md:text-lg text-slate-700 leading-relaxed">Você aprova e a fatura é criada</p>
+                  <p className="text-base md:text-lg text-slate-700 leading-relaxed">Você aprova e o recibo é criado</p>
                 </div>
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-green-600 text-white rounded-full flex items-center justify-center text-sm md:text-base font-bold flex-shrink-0">

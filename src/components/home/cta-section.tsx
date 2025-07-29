@@ -60,7 +60,7 @@ export function CTASection() {
               </div>
               <div className="flex items-center space-x-3">
                 <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-slate-300">Sem mensalidades nem custos escondidos</span>
+                <span className="text-slate-300">Sem custos escondidos</span>
               </div>
               <div className="flex items-center space-x-3">
                 <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
