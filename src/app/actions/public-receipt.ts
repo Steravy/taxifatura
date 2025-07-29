@@ -94,8 +94,13 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
     // Create the receipt
     const receipt = await ReceiptService.createPublic(receiptData)
 
+    // Save email recipients
+    if (validatedData.emails && validatedData.emails.length > 0) {
+      await ReceiptService.saveEmailRecipients(receipt.id, validatedData.emails)
+    }
+
     // TODO: Send email notification to driver
-    // TODO: Send confirmation email to client (if email provided)
+    // TODO: Send confirmation email to client recipients
 
     // Revalidate dashboard for the vehicle owner
     revalidatePath("/dashboard")

@@ -377,6 +377,27 @@ export class ReceiptService {
       },
     })
   }
+
+  /**
+   * Save email recipients for a receipt
+   */
+  static async saveEmailRecipients(receiptId: string, emails: string[]): Promise<void> {
+    try {
+      // Create receipt recipients for each email
+      const recipients = emails.map(email => ({
+        receiptId,
+        email: email.toLowerCase().trim(),
+      }))
+
+      await db.receiptRecipient.createMany({
+        data: recipients,
+        skipDuplicates: true, // Prevent duplicate emails for same receipt
+      })
+    } catch (error) {
+      console.error("Error saving email recipients:", error)
+      throw error
+    }
+  }
 }
 
 // Export singleton instance

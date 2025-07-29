@@ -1,10 +1,10 @@
 "use client"
 
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MapPin, Receipt, Loader2 } from "lucide-react"
+import { MapPin, Receipt, Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
+import { EmailRecipientsInput } from "@/components/email-recipients-input"
 import { publicReceiptInputSchema, type PublicReceiptInput } from "@/lib/validators/receipt.schema"
 import { createPublicReceipt } from "@/app/actions/public-receipt"
 
@@ -29,7 +30,7 @@ interface PublicReceiptFormProps {
 export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  
+
   const form = useForm<PublicReceiptInput>({
     resolver: zodResolver(publicReceiptInputSchema),
     defaultValues: {
@@ -42,6 +43,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
       tripDate: new Date().toISOString().split('T')[0],
       tripTime: new Date().toTimeString().slice(0, 5),
       vehicleSlug: vehicleSlug,
+      emails: [],
     },
   })
 
@@ -49,7 +51,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
     startTransition(async () => {
       try {
         const result = await createPublicReceipt(data)
-        
+
         if (result.success) {
           toast.success(result.message)
           router.push(`/v/${vehicleSlug}/receipt-success/${result.data.receiptId}`)
@@ -95,7 +97,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
             <MapPin className="w-4 h-4" />
             Detalhes da Viagem
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -114,7 +116,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="destination"
@@ -154,7 +156,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="tripDate"
@@ -173,7 +175,7 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="tripTime"
@@ -239,11 +241,36 @@ export function PublicReceiptForm({ vehicleSlug }: PublicReceiptFormProps) {
           />
         </div>
 
+        <Separator />
+
+        {/* Email Recipients */}
+        <FormField
+          control={form.control}
+          name="emails"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                Receber Recibo por Email
+              </FormLabel>
+              <FormControl>
+                <EmailRecipientsInput
+                  emails={field.value}
+                  onChange={field.onChange}
+                  disabled={isPending}
+                  maxEmails={3}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Submit Button */}
         <Button
           type="submit"
           disabled={isPending}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
+          className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 hover:cursor-pointer"
         >
           {isPending ? (
             <>

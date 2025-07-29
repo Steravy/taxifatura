@@ -48,6 +48,11 @@ export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
  * 
  */
 export type Receipt = $Result.DefaultSelection<Prisma.$ReceiptPayload>
+/**
+ * Model ReceiptRecipient
+ * 
+ */
+export type ReceiptRecipient = $Result.DefaultSelection<Prisma.$ReceiptRecipientPayload>
 
 /**
  * Enums
@@ -261,6 +266,16 @@ export class PrismaClient<
     * ```
     */
   get receipt(): Prisma.ReceiptDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.receiptRecipient`: Exposes CRUD operations for the **ReceiptRecipient** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReceiptRecipients
+    * const receiptRecipients = await prisma.receiptRecipient.findMany()
+    * ```
+    */
+  get receiptRecipient(): Prisma.ReceiptRecipientDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -707,7 +722,8 @@ export namespace Prisma {
     Verification: 'Verification',
     WaitingList: 'WaitingList',
     Vehicle: 'Vehicle',
-    Receipt: 'Receipt'
+    Receipt: 'Receipt',
+    ReceiptRecipient: 'ReceiptRecipient'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -726,7 +742,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "waitingList" | "vehicle" | "receipt"
+      modelProps: "user" | "session" | "account" | "verification" | "waitingList" | "vehicle" | "receipt" | "receiptRecipient"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1248,6 +1264,80 @@ export namespace Prisma {
           }
         }
       }
+      ReceiptRecipient: {
+        payload: Prisma.$ReceiptRecipientPayload<ExtArgs>
+        fields: Prisma.ReceiptRecipientFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReceiptRecipientFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReceiptRecipientFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          findFirst: {
+            args: Prisma.ReceiptRecipientFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReceiptRecipientFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          findMany: {
+            args: Prisma.ReceiptRecipientFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>[]
+          }
+          create: {
+            args: Prisma.ReceiptRecipientCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          createMany: {
+            args: Prisma.ReceiptRecipientCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReceiptRecipientCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>[]
+          }
+          delete: {
+            args: Prisma.ReceiptRecipientDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          update: {
+            args: Prisma.ReceiptRecipientUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReceiptRecipientDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReceiptRecipientUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReceiptRecipientUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReceiptRecipientUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReceiptRecipientPayload>
+          }
+          aggregate: {
+            args: Prisma.ReceiptRecipientAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReceiptRecipient>
+          }
+          groupBy: {
+            args: Prisma.ReceiptRecipientGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReceiptRecipientGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReceiptRecipientCountArgs<ExtArgs>
+            result: $Utils.Optional<ReceiptRecipientCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1339,6 +1429,7 @@ export namespace Prisma {
     waitingList?: WaitingListOmit
     vehicle?: VehicleOmit
     receipt?: ReceiptOmit
+    receiptRecipient?: ReceiptRecipientOmit
   }
 
   /* Types for Logging */
@@ -1514,6 +1605,37 @@ export namespace Prisma {
    */
   export type VehicleCountOutputTypeCountReceiptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReceiptWhereInput
+  }
+
+
+  /**
+   * Count Type ReceiptCountOutputType
+   */
+
+  export type ReceiptCountOutputType = {
+    recipients: number
+  }
+
+  export type ReceiptCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recipients?: boolean | ReceiptCountOutputTypeCountRecipientsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReceiptCountOutputType without action
+   */
+  export type ReceiptCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptCountOutputType
+     */
+    select?: ReceiptCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReceiptCountOutputType without action
+   */
+  export type ReceiptCountOutputTypeCountRecipientsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReceiptRecipientWhereInput
   }
 
 
@@ -8387,6 +8509,8 @@ export namespace Prisma {
     vehicleId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+    recipients?: boolean | Receipt$recipientsArgs<ExtArgs>
+    _count?: boolean | ReceiptCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["receipt"]>
 
   export type ReceiptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8451,6 +8575,8 @@ export namespace Prisma {
   export type ReceiptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+    recipients?: boolean | Receipt$recipientsArgs<ExtArgs>
+    _count?: boolean | ReceiptCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReceiptIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8466,6 +8592,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       vehicle: Prisma.$VehiclePayload<ExtArgs>
+      recipients: Prisma.$ReceiptRecipientPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8879,6 +9006,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     vehicle<T extends VehicleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehicleDefaultArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    recipients<T extends Receipt$recipientsArgs<ExtArgs> = {}>(args?: Subset<T, Receipt$recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9319,6 +9447,30 @@ export namespace Prisma {
   }
 
   /**
+   * Receipt.recipients
+   */
+  export type Receipt$recipientsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    where?: ReceiptRecipientWhereInput
+    orderBy?: ReceiptRecipientOrderByWithRelationInput | ReceiptRecipientOrderByWithRelationInput[]
+    cursor?: ReceiptRecipientWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReceiptRecipientScalarFieldEnum | ReceiptRecipientScalarFieldEnum[]
+  }
+
+  /**
    * Receipt without action
    */
   export type ReceiptDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9334,6 +9486,1116 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ReceiptInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReceiptRecipient
+   */
+
+  export type AggregateReceiptRecipient = {
+    _count: ReceiptRecipientCountAggregateOutputType | null
+    _min: ReceiptRecipientMinAggregateOutputType | null
+    _max: ReceiptRecipientMaxAggregateOutputType | null
+  }
+
+  export type ReceiptRecipientMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    emailSent: boolean | null
+    emailSentAt: Date | null
+    emailDelivered: boolean | null
+    emailError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    receiptId: string | null
+  }
+
+  export type ReceiptRecipientMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    emailSent: boolean | null
+    emailSentAt: Date | null
+    emailDelivered: boolean | null
+    emailError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    receiptId: string | null
+  }
+
+  export type ReceiptRecipientCountAggregateOutputType = {
+    id: number
+    email: number
+    emailSent: number
+    emailSentAt: number
+    emailDelivered: number
+    emailError: number
+    createdAt: number
+    updatedAt: number
+    receiptId: number
+    _all: number
+  }
+
+
+  export type ReceiptRecipientMinAggregateInputType = {
+    id?: true
+    email?: true
+    emailSent?: true
+    emailSentAt?: true
+    emailDelivered?: true
+    emailError?: true
+    createdAt?: true
+    updatedAt?: true
+    receiptId?: true
+  }
+
+  export type ReceiptRecipientMaxAggregateInputType = {
+    id?: true
+    email?: true
+    emailSent?: true
+    emailSentAt?: true
+    emailDelivered?: true
+    emailError?: true
+    createdAt?: true
+    updatedAt?: true
+    receiptId?: true
+  }
+
+  export type ReceiptRecipientCountAggregateInputType = {
+    id?: true
+    email?: true
+    emailSent?: true
+    emailSentAt?: true
+    emailDelivered?: true
+    emailError?: true
+    createdAt?: true
+    updatedAt?: true
+    receiptId?: true
+    _all?: true
+  }
+
+  export type ReceiptRecipientAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReceiptRecipient to aggregate.
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReceiptRecipients to fetch.
+     */
+    orderBy?: ReceiptRecipientOrderByWithRelationInput | ReceiptRecipientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReceiptRecipientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReceiptRecipients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReceiptRecipients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReceiptRecipients
+    **/
+    _count?: true | ReceiptRecipientCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReceiptRecipientMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReceiptRecipientMaxAggregateInputType
+  }
+
+  export type GetReceiptRecipientAggregateType<T extends ReceiptRecipientAggregateArgs> = {
+        [P in keyof T & keyof AggregateReceiptRecipient]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReceiptRecipient[P]>
+      : GetScalarType<T[P], AggregateReceiptRecipient[P]>
+  }
+
+
+
+
+  export type ReceiptRecipientGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReceiptRecipientWhereInput
+    orderBy?: ReceiptRecipientOrderByWithAggregationInput | ReceiptRecipientOrderByWithAggregationInput[]
+    by: ReceiptRecipientScalarFieldEnum[] | ReceiptRecipientScalarFieldEnum
+    having?: ReceiptRecipientScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReceiptRecipientCountAggregateInputType | true
+    _min?: ReceiptRecipientMinAggregateInputType
+    _max?: ReceiptRecipientMaxAggregateInputType
+  }
+
+  export type ReceiptRecipientGroupByOutputType = {
+    id: string
+    email: string
+    emailSent: boolean
+    emailSentAt: Date | null
+    emailDelivered: boolean
+    emailError: string | null
+    createdAt: Date
+    updatedAt: Date
+    receiptId: string
+    _count: ReceiptRecipientCountAggregateOutputType | null
+    _min: ReceiptRecipientMinAggregateOutputType | null
+    _max: ReceiptRecipientMaxAggregateOutputType | null
+  }
+
+  type GetReceiptRecipientGroupByPayload<T extends ReceiptRecipientGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReceiptRecipientGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReceiptRecipientGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReceiptRecipientGroupByOutputType[P]>
+            : GetScalarType<T[P], ReceiptRecipientGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReceiptRecipientSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    emailSent?: boolean
+    emailSentAt?: boolean
+    emailDelivered?: boolean
+    emailError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    receiptId?: boolean
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["receiptRecipient"]>
+
+  export type ReceiptRecipientSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    emailSent?: boolean
+    emailSentAt?: boolean
+    emailDelivered?: boolean
+    emailError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    receiptId?: boolean
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["receiptRecipient"]>
+
+  export type ReceiptRecipientSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    emailSent?: boolean
+    emailSentAt?: boolean
+    emailDelivered?: boolean
+    emailError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    receiptId?: boolean
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["receiptRecipient"]>
+
+  export type ReceiptRecipientSelectScalar = {
+    id?: boolean
+    email?: boolean
+    emailSent?: boolean
+    emailSentAt?: boolean
+    emailDelivered?: boolean
+    emailError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    receiptId?: boolean
+  }
+
+  export type ReceiptRecipientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "emailSent" | "emailSentAt" | "emailDelivered" | "emailError" | "createdAt" | "updatedAt" | "receiptId", ExtArgs["result"]["receiptRecipient"]>
+  export type ReceiptRecipientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }
+  export type ReceiptRecipientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }
+  export type ReceiptRecipientIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    receipt?: boolean | ReceiptDefaultArgs<ExtArgs>
+  }
+
+  export type $ReceiptRecipientPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReceiptRecipient"
+    objects: {
+      receipt: Prisma.$ReceiptPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      email: string
+      emailSent: boolean
+      emailSentAt: Date | null
+      emailDelivered: boolean
+      emailError: string | null
+      createdAt: Date
+      updatedAt: Date
+      receiptId: string
+    }, ExtArgs["result"]["receiptRecipient"]>
+    composites: {}
+  }
+
+  type ReceiptRecipientGetPayload<S extends boolean | null | undefined | ReceiptRecipientDefaultArgs> = $Result.GetResult<Prisma.$ReceiptRecipientPayload, S>
+
+  type ReceiptRecipientCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReceiptRecipientFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReceiptRecipientCountAggregateInputType | true
+    }
+
+  export interface ReceiptRecipientDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReceiptRecipient'], meta: { name: 'ReceiptRecipient' } }
+    /**
+     * Find zero or one ReceiptRecipient that matches the filter.
+     * @param {ReceiptRecipientFindUniqueArgs} args - Arguments to find a ReceiptRecipient
+     * @example
+     * // Get one ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReceiptRecipientFindUniqueArgs>(args: SelectSubset<T, ReceiptRecipientFindUniqueArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReceiptRecipient that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReceiptRecipientFindUniqueOrThrowArgs} args - Arguments to find a ReceiptRecipient
+     * @example
+     * // Get one ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReceiptRecipientFindUniqueOrThrowArgs>(args: SelectSubset<T, ReceiptRecipientFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReceiptRecipient that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientFindFirstArgs} args - Arguments to find a ReceiptRecipient
+     * @example
+     * // Get one ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReceiptRecipientFindFirstArgs>(args?: SelectSubset<T, ReceiptRecipientFindFirstArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReceiptRecipient that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientFindFirstOrThrowArgs} args - Arguments to find a ReceiptRecipient
+     * @example
+     * // Get one ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReceiptRecipientFindFirstOrThrowArgs>(args?: SelectSubset<T, ReceiptRecipientFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReceiptRecipients that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReceiptRecipients
+     * const receiptRecipients = await prisma.receiptRecipient.findMany()
+     * 
+     * // Get first 10 ReceiptRecipients
+     * const receiptRecipients = await prisma.receiptRecipient.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const receiptRecipientWithIdOnly = await prisma.receiptRecipient.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReceiptRecipientFindManyArgs>(args?: SelectSubset<T, ReceiptRecipientFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReceiptRecipient.
+     * @param {ReceiptRecipientCreateArgs} args - Arguments to create a ReceiptRecipient.
+     * @example
+     * // Create one ReceiptRecipient
+     * const ReceiptRecipient = await prisma.receiptRecipient.create({
+     *   data: {
+     *     // ... data to create a ReceiptRecipient
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReceiptRecipientCreateArgs>(args: SelectSubset<T, ReceiptRecipientCreateArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReceiptRecipients.
+     * @param {ReceiptRecipientCreateManyArgs} args - Arguments to create many ReceiptRecipients.
+     * @example
+     * // Create many ReceiptRecipients
+     * const receiptRecipient = await prisma.receiptRecipient.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReceiptRecipientCreateManyArgs>(args?: SelectSubset<T, ReceiptRecipientCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReceiptRecipients and returns the data saved in the database.
+     * @param {ReceiptRecipientCreateManyAndReturnArgs} args - Arguments to create many ReceiptRecipients.
+     * @example
+     * // Create many ReceiptRecipients
+     * const receiptRecipient = await prisma.receiptRecipient.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReceiptRecipients and only return the `id`
+     * const receiptRecipientWithIdOnly = await prisma.receiptRecipient.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReceiptRecipientCreateManyAndReturnArgs>(args?: SelectSubset<T, ReceiptRecipientCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReceiptRecipient.
+     * @param {ReceiptRecipientDeleteArgs} args - Arguments to delete one ReceiptRecipient.
+     * @example
+     * // Delete one ReceiptRecipient
+     * const ReceiptRecipient = await prisma.receiptRecipient.delete({
+     *   where: {
+     *     // ... filter to delete one ReceiptRecipient
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReceiptRecipientDeleteArgs>(args: SelectSubset<T, ReceiptRecipientDeleteArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReceiptRecipient.
+     * @param {ReceiptRecipientUpdateArgs} args - Arguments to update one ReceiptRecipient.
+     * @example
+     * // Update one ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReceiptRecipientUpdateArgs>(args: SelectSubset<T, ReceiptRecipientUpdateArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReceiptRecipients.
+     * @param {ReceiptRecipientDeleteManyArgs} args - Arguments to filter ReceiptRecipients to delete.
+     * @example
+     * // Delete a few ReceiptRecipients
+     * const { count } = await prisma.receiptRecipient.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReceiptRecipientDeleteManyArgs>(args?: SelectSubset<T, ReceiptRecipientDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReceiptRecipients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReceiptRecipients
+     * const receiptRecipient = await prisma.receiptRecipient.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReceiptRecipientUpdateManyArgs>(args: SelectSubset<T, ReceiptRecipientUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReceiptRecipients and returns the data updated in the database.
+     * @param {ReceiptRecipientUpdateManyAndReturnArgs} args - Arguments to update many ReceiptRecipients.
+     * @example
+     * // Update many ReceiptRecipients
+     * const receiptRecipient = await prisma.receiptRecipient.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReceiptRecipients and only return the `id`
+     * const receiptRecipientWithIdOnly = await prisma.receiptRecipient.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReceiptRecipientUpdateManyAndReturnArgs>(args: SelectSubset<T, ReceiptRecipientUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReceiptRecipient.
+     * @param {ReceiptRecipientUpsertArgs} args - Arguments to update or create a ReceiptRecipient.
+     * @example
+     * // Update or create a ReceiptRecipient
+     * const receiptRecipient = await prisma.receiptRecipient.upsert({
+     *   create: {
+     *     // ... data to create a ReceiptRecipient
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReceiptRecipient we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReceiptRecipientUpsertArgs>(args: SelectSubset<T, ReceiptRecipientUpsertArgs<ExtArgs>>): Prisma__ReceiptRecipientClient<$Result.GetResult<Prisma.$ReceiptRecipientPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReceiptRecipients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientCountArgs} args - Arguments to filter ReceiptRecipients to count.
+     * @example
+     * // Count the number of ReceiptRecipients
+     * const count = await prisma.receiptRecipient.count({
+     *   where: {
+     *     // ... the filter for the ReceiptRecipients we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReceiptRecipientCountArgs>(
+      args?: Subset<T, ReceiptRecipientCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReceiptRecipientCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReceiptRecipient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReceiptRecipientAggregateArgs>(args: Subset<T, ReceiptRecipientAggregateArgs>): Prisma.PrismaPromise<GetReceiptRecipientAggregateType<T>>
+
+    /**
+     * Group by ReceiptRecipient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReceiptRecipientGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReceiptRecipientGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReceiptRecipientGroupByArgs['orderBy'] }
+        : { orderBy?: ReceiptRecipientGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReceiptRecipientGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReceiptRecipientGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReceiptRecipient model
+   */
+  readonly fields: ReceiptRecipientFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReceiptRecipient.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReceiptRecipientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    receipt<T extends ReceiptDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReceiptDefaultArgs<ExtArgs>>): Prisma__ReceiptClient<$Result.GetResult<Prisma.$ReceiptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReceiptRecipient model
+   */
+  interface ReceiptRecipientFieldRefs {
+    readonly id: FieldRef<"ReceiptRecipient", 'String'>
+    readonly email: FieldRef<"ReceiptRecipient", 'String'>
+    readonly emailSent: FieldRef<"ReceiptRecipient", 'Boolean'>
+    readonly emailSentAt: FieldRef<"ReceiptRecipient", 'DateTime'>
+    readonly emailDelivered: FieldRef<"ReceiptRecipient", 'Boolean'>
+    readonly emailError: FieldRef<"ReceiptRecipient", 'String'>
+    readonly createdAt: FieldRef<"ReceiptRecipient", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReceiptRecipient", 'DateTime'>
+    readonly receiptId: FieldRef<"ReceiptRecipient", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReceiptRecipient findUnique
+   */
+  export type ReceiptRecipientFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter, which ReceiptRecipient to fetch.
+     */
+    where: ReceiptRecipientWhereUniqueInput
+  }
+
+  /**
+   * ReceiptRecipient findUniqueOrThrow
+   */
+  export type ReceiptRecipientFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter, which ReceiptRecipient to fetch.
+     */
+    where: ReceiptRecipientWhereUniqueInput
+  }
+
+  /**
+   * ReceiptRecipient findFirst
+   */
+  export type ReceiptRecipientFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter, which ReceiptRecipient to fetch.
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReceiptRecipients to fetch.
+     */
+    orderBy?: ReceiptRecipientOrderByWithRelationInput | ReceiptRecipientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReceiptRecipients.
+     */
+    cursor?: ReceiptRecipientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReceiptRecipients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReceiptRecipients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReceiptRecipients.
+     */
+    distinct?: ReceiptRecipientScalarFieldEnum | ReceiptRecipientScalarFieldEnum[]
+  }
+
+  /**
+   * ReceiptRecipient findFirstOrThrow
+   */
+  export type ReceiptRecipientFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter, which ReceiptRecipient to fetch.
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReceiptRecipients to fetch.
+     */
+    orderBy?: ReceiptRecipientOrderByWithRelationInput | ReceiptRecipientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReceiptRecipients.
+     */
+    cursor?: ReceiptRecipientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReceiptRecipients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReceiptRecipients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReceiptRecipients.
+     */
+    distinct?: ReceiptRecipientScalarFieldEnum | ReceiptRecipientScalarFieldEnum[]
+  }
+
+  /**
+   * ReceiptRecipient findMany
+   */
+  export type ReceiptRecipientFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter, which ReceiptRecipients to fetch.
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReceiptRecipients to fetch.
+     */
+    orderBy?: ReceiptRecipientOrderByWithRelationInput | ReceiptRecipientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReceiptRecipients.
+     */
+    cursor?: ReceiptRecipientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReceiptRecipients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReceiptRecipients.
+     */
+    skip?: number
+    distinct?: ReceiptRecipientScalarFieldEnum | ReceiptRecipientScalarFieldEnum[]
+  }
+
+  /**
+   * ReceiptRecipient create
+   */
+  export type ReceiptRecipientCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReceiptRecipient.
+     */
+    data: XOR<ReceiptRecipientCreateInput, ReceiptRecipientUncheckedCreateInput>
+  }
+
+  /**
+   * ReceiptRecipient createMany
+   */
+  export type ReceiptRecipientCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReceiptRecipients.
+     */
+    data: ReceiptRecipientCreateManyInput | ReceiptRecipientCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReceiptRecipient createManyAndReturn
+   */
+  export type ReceiptRecipientCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReceiptRecipients.
+     */
+    data: ReceiptRecipientCreateManyInput | ReceiptRecipientCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReceiptRecipient update
+   */
+  export type ReceiptRecipientUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReceiptRecipient.
+     */
+    data: XOR<ReceiptRecipientUpdateInput, ReceiptRecipientUncheckedUpdateInput>
+    /**
+     * Choose, which ReceiptRecipient to update.
+     */
+    where: ReceiptRecipientWhereUniqueInput
+  }
+
+  /**
+   * ReceiptRecipient updateMany
+   */
+  export type ReceiptRecipientUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReceiptRecipients.
+     */
+    data: XOR<ReceiptRecipientUpdateManyMutationInput, ReceiptRecipientUncheckedUpdateManyInput>
+    /**
+     * Filter which ReceiptRecipients to update
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * Limit how many ReceiptRecipients to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReceiptRecipient updateManyAndReturn
+   */
+  export type ReceiptRecipientUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * The data used to update ReceiptRecipients.
+     */
+    data: XOR<ReceiptRecipientUpdateManyMutationInput, ReceiptRecipientUncheckedUpdateManyInput>
+    /**
+     * Filter which ReceiptRecipients to update
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * Limit how many ReceiptRecipients to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReceiptRecipient upsert
+   */
+  export type ReceiptRecipientUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReceiptRecipient to update in case it exists.
+     */
+    where: ReceiptRecipientWhereUniqueInput
+    /**
+     * In case the ReceiptRecipient found by the `where` argument doesn't exist, create a new ReceiptRecipient with this data.
+     */
+    create: XOR<ReceiptRecipientCreateInput, ReceiptRecipientUncheckedCreateInput>
+    /**
+     * In case the ReceiptRecipient was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReceiptRecipientUpdateInput, ReceiptRecipientUncheckedUpdateInput>
+  }
+
+  /**
+   * ReceiptRecipient delete
+   */
+  export type ReceiptRecipientDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
+    /**
+     * Filter which ReceiptRecipient to delete.
+     */
+    where: ReceiptRecipientWhereUniqueInput
+  }
+
+  /**
+   * ReceiptRecipient deleteMany
+   */
+  export type ReceiptRecipientDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReceiptRecipients to delete
+     */
+    where?: ReceiptRecipientWhereInput
+    /**
+     * Limit how many ReceiptRecipients to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReceiptRecipient without action
+   */
+  export type ReceiptRecipientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReceiptRecipient
+     */
+    select?: ReceiptRecipientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReceiptRecipient
+     */
+    omit?: ReceiptRecipientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReceiptRecipientInclude<ExtArgs> | null
   }
 
 
@@ -9454,6 +10716,21 @@ export namespace Prisma {
   };
 
   export type ReceiptScalarFieldEnum = (typeof ReceiptScalarFieldEnum)[keyof typeof ReceiptScalarFieldEnum]
+
+
+  export const ReceiptRecipientScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    emailSent: 'emailSent',
+    emailSentAt: 'emailSentAt',
+    emailDelivered: 'emailDelivered',
+    emailError: 'emailError',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    receiptId: 'receiptId'
+  };
+
+  export type ReceiptRecipientScalarFieldEnum = (typeof ReceiptRecipientScalarFieldEnum)[keyof typeof ReceiptRecipientScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10026,6 +11303,7 @@ export namespace Prisma {
     vehicleId?: StringFilter<"Receipt"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+    recipients?: ReceiptRecipientListRelationFilter
   }
 
   export type ReceiptOrderByWithRelationInput = {
@@ -10046,6 +11324,7 @@ export namespace Prisma {
     vehicleId?: SortOrder
     user?: UserOrderByWithRelationInput
     vehicle?: VehicleOrderByWithRelationInput
+    recipients?: ReceiptRecipientOrderByRelationAggregateInput
   }
 
   export type ReceiptWhereUniqueInput = Prisma.AtLeast<{
@@ -10069,6 +11348,7 @@ export namespace Prisma {
     vehicleId?: StringFilter<"Receipt"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+    recipients?: ReceiptRecipientListRelationFilter
   }, "id">
 
   export type ReceiptOrderByWithAggregationInput = {
@@ -10113,6 +11393,81 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Receipt"> | Date | string | null
     userId?: StringWithAggregatesFilter<"Receipt"> | string
     vehicleId?: StringWithAggregatesFilter<"Receipt"> | string
+  }
+
+  export type ReceiptRecipientWhereInput = {
+    AND?: ReceiptRecipientWhereInput | ReceiptRecipientWhereInput[]
+    OR?: ReceiptRecipientWhereInput[]
+    NOT?: ReceiptRecipientWhereInput | ReceiptRecipientWhereInput[]
+    id?: StringFilter<"ReceiptRecipient"> | string
+    email?: StringFilter<"ReceiptRecipient"> | string
+    emailSent?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailSentAt?: DateTimeNullableFilter<"ReceiptRecipient"> | Date | string | null
+    emailDelivered?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailError?: StringNullableFilter<"ReceiptRecipient"> | string | null
+    createdAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    receiptId?: StringFilter<"ReceiptRecipient"> | string
+    receipt?: XOR<ReceiptScalarRelationFilter, ReceiptWhereInput>
+  }
+
+  export type ReceiptRecipientOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    emailSent?: SortOrder
+    emailSentAt?: SortOrderInput | SortOrder
+    emailDelivered?: SortOrder
+    emailError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    receiptId?: SortOrder
+    receipt?: ReceiptOrderByWithRelationInput
+  }
+
+  export type ReceiptRecipientWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReceiptRecipientWhereInput | ReceiptRecipientWhereInput[]
+    OR?: ReceiptRecipientWhereInput[]
+    NOT?: ReceiptRecipientWhereInput | ReceiptRecipientWhereInput[]
+    email?: StringFilter<"ReceiptRecipient"> | string
+    emailSent?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailSentAt?: DateTimeNullableFilter<"ReceiptRecipient"> | Date | string | null
+    emailDelivered?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailError?: StringNullableFilter<"ReceiptRecipient"> | string | null
+    createdAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    receiptId?: StringFilter<"ReceiptRecipient"> | string
+    receipt?: XOR<ReceiptScalarRelationFilter, ReceiptWhereInput>
+  }, "id">
+
+  export type ReceiptRecipientOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    emailSent?: SortOrder
+    emailSentAt?: SortOrderInput | SortOrder
+    emailDelivered?: SortOrder
+    emailError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    receiptId?: SortOrder
+    _count?: ReceiptRecipientCountOrderByAggregateInput
+    _max?: ReceiptRecipientMaxOrderByAggregateInput
+    _min?: ReceiptRecipientMinOrderByAggregateInput
+  }
+
+  export type ReceiptRecipientScalarWhereWithAggregatesInput = {
+    AND?: ReceiptRecipientScalarWhereWithAggregatesInput | ReceiptRecipientScalarWhereWithAggregatesInput[]
+    OR?: ReceiptRecipientScalarWhereWithAggregatesInput[]
+    NOT?: ReceiptRecipientScalarWhereWithAggregatesInput | ReceiptRecipientScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReceiptRecipient"> | string
+    email?: StringWithAggregatesFilter<"ReceiptRecipient"> | string
+    emailSent?: BoolWithAggregatesFilter<"ReceiptRecipient"> | boolean
+    emailSentAt?: DateTimeNullableWithAggregatesFilter<"ReceiptRecipient"> | Date | string | null
+    emailDelivered?: BoolWithAggregatesFilter<"ReceiptRecipient"> | boolean
+    emailError?: StringNullableWithAggregatesFilter<"ReceiptRecipient"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ReceiptRecipient"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReceiptRecipient"> | Date | string
+    receiptId?: StringWithAggregatesFilter<"ReceiptRecipient"> | string
   }
 
   export type UserCreateInput = {
@@ -10610,6 +11965,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutReceiptsInput
     vehicle: VehicleCreateNestedOneWithoutReceiptsInput
+    recipients?: ReceiptRecipientCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptUncheckedCreateInput = {
@@ -10628,6 +11984,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     userId: string
     vehicleId: string
+    recipients?: ReceiptRecipientUncheckedCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptUpdateInput = {
@@ -10646,6 +12003,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutReceiptsNestedInput
     vehicle?: VehicleUpdateOneRequiredWithoutReceiptsNestedInput
+    recipients?: ReceiptRecipientUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptUncheckedUpdateInput = {
@@ -10664,6 +12022,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     vehicleId?: StringFieldUpdateOperationsInput | string
+    recipients?: ReceiptRecipientUncheckedUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptCreateManyInput = {
@@ -10716,6 +12075,89 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     vehicleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReceiptRecipientCreateInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receipt: ReceiptCreateNestedOneWithoutRecipientsInput
+  }
+
+  export type ReceiptRecipientUncheckedCreateInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receiptId: string
+  }
+
+  export type ReceiptRecipientUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receipt?: ReceiptUpdateOneRequiredWithoutRecipientsNestedInput
+  }
+
+  export type ReceiptRecipientUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receiptId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReceiptRecipientCreateManyInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receiptId: string
+  }
+
+  export type ReceiptRecipientUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReceiptRecipientUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receiptId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11129,6 +12571,16 @@ export namespace Prisma {
     isNot?: VehicleWhereInput
   }
 
+  export type ReceiptRecipientListRelationFilter = {
+    every?: ReceiptRecipientWhereInput
+    some?: ReceiptRecipientWhereInput
+    none?: ReceiptRecipientWhereInput
+  }
+
+  export type ReceiptRecipientOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ReceiptCountOrderByAggregateInput = {
     id?: SortOrder
     clientName?: SortOrder
@@ -11233,6 +12685,47 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReceiptStatusFilter<$PrismaModel>
     _max?: NestedEnumReceiptStatusFilter<$PrismaModel>
+  }
+
+  export type ReceiptScalarRelationFilter = {
+    is?: ReceiptWhereInput
+    isNot?: ReceiptWhereInput
+  }
+
+  export type ReceiptRecipientCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    emailSent?: SortOrder
+    emailSentAt?: SortOrder
+    emailDelivered?: SortOrder
+    emailError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    receiptId?: SortOrder
+  }
+
+  export type ReceiptRecipientMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    emailSent?: SortOrder
+    emailSentAt?: SortOrder
+    emailDelivered?: SortOrder
+    emailError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    receiptId?: SortOrder
+  }
+
+  export type ReceiptRecipientMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    emailSent?: SortOrder
+    emailSentAt?: SortOrder
+    emailDelivered?: SortOrder
+    emailError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    receiptId?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -11519,6 +13012,20 @@ export namespace Prisma {
     connect?: VehicleWhereUniqueInput
   }
 
+  export type ReceiptRecipientCreateNestedManyWithoutReceiptInput = {
+    create?: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput> | ReceiptRecipientCreateWithoutReceiptInput[] | ReceiptRecipientUncheckedCreateWithoutReceiptInput[]
+    connectOrCreate?: ReceiptRecipientCreateOrConnectWithoutReceiptInput | ReceiptRecipientCreateOrConnectWithoutReceiptInput[]
+    createMany?: ReceiptRecipientCreateManyReceiptInputEnvelope
+    connect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+  }
+
+  export type ReceiptRecipientUncheckedCreateNestedManyWithoutReceiptInput = {
+    create?: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput> | ReceiptRecipientCreateWithoutReceiptInput[] | ReceiptRecipientUncheckedCreateWithoutReceiptInput[]
+    connectOrCreate?: ReceiptRecipientCreateOrConnectWithoutReceiptInput | ReceiptRecipientCreateOrConnectWithoutReceiptInput[]
+    createMany?: ReceiptRecipientCreateManyReceiptInputEnvelope
+    connect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+  }
+
   export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -11553,6 +13060,48 @@ export namespace Prisma {
     upsert?: VehicleUpsertWithoutReceiptsInput
     connect?: VehicleWhereUniqueInput
     update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutReceiptsInput, VehicleUpdateWithoutReceiptsInput>, VehicleUncheckedUpdateWithoutReceiptsInput>
+  }
+
+  export type ReceiptRecipientUpdateManyWithoutReceiptNestedInput = {
+    create?: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput> | ReceiptRecipientCreateWithoutReceiptInput[] | ReceiptRecipientUncheckedCreateWithoutReceiptInput[]
+    connectOrCreate?: ReceiptRecipientCreateOrConnectWithoutReceiptInput | ReceiptRecipientCreateOrConnectWithoutReceiptInput[]
+    upsert?: ReceiptRecipientUpsertWithWhereUniqueWithoutReceiptInput | ReceiptRecipientUpsertWithWhereUniqueWithoutReceiptInput[]
+    createMany?: ReceiptRecipientCreateManyReceiptInputEnvelope
+    set?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    disconnect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    delete?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    connect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    update?: ReceiptRecipientUpdateWithWhereUniqueWithoutReceiptInput | ReceiptRecipientUpdateWithWhereUniqueWithoutReceiptInput[]
+    updateMany?: ReceiptRecipientUpdateManyWithWhereWithoutReceiptInput | ReceiptRecipientUpdateManyWithWhereWithoutReceiptInput[]
+    deleteMany?: ReceiptRecipientScalarWhereInput | ReceiptRecipientScalarWhereInput[]
+  }
+
+  export type ReceiptRecipientUncheckedUpdateManyWithoutReceiptNestedInput = {
+    create?: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput> | ReceiptRecipientCreateWithoutReceiptInput[] | ReceiptRecipientUncheckedCreateWithoutReceiptInput[]
+    connectOrCreate?: ReceiptRecipientCreateOrConnectWithoutReceiptInput | ReceiptRecipientCreateOrConnectWithoutReceiptInput[]
+    upsert?: ReceiptRecipientUpsertWithWhereUniqueWithoutReceiptInput | ReceiptRecipientUpsertWithWhereUniqueWithoutReceiptInput[]
+    createMany?: ReceiptRecipientCreateManyReceiptInputEnvelope
+    set?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    disconnect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    delete?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    connect?: ReceiptRecipientWhereUniqueInput | ReceiptRecipientWhereUniqueInput[]
+    update?: ReceiptRecipientUpdateWithWhereUniqueWithoutReceiptInput | ReceiptRecipientUpdateWithWhereUniqueWithoutReceiptInput[]
+    updateMany?: ReceiptRecipientUpdateManyWithWhereWithoutReceiptInput | ReceiptRecipientUpdateManyWithWhereWithoutReceiptInput[]
+    deleteMany?: ReceiptRecipientScalarWhereInput | ReceiptRecipientScalarWhereInput[]
+  }
+
+  export type ReceiptCreateNestedOneWithoutRecipientsInput = {
+    create?: XOR<ReceiptCreateWithoutRecipientsInput, ReceiptUncheckedCreateWithoutRecipientsInput>
+    connectOrCreate?: ReceiptCreateOrConnectWithoutRecipientsInput
+    connect?: ReceiptWhereUniqueInput
+  }
+
+  export type ReceiptUpdateOneRequiredWithoutRecipientsNestedInput = {
+    create?: XOR<ReceiptCreateWithoutRecipientsInput, ReceiptUncheckedCreateWithoutRecipientsInput>
+    connectOrCreate?: ReceiptCreateOrConnectWithoutRecipientsInput
+    upsert?: ReceiptUpsertWithoutRecipientsInput
+    connect?: ReceiptWhereUniqueInput
+    update?: XOR<XOR<ReceiptUpdateToOneWithWhereWithoutRecipientsInput, ReceiptUpdateWithoutRecipientsInput>, ReceiptUncheckedUpdateWithoutRecipientsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11858,6 +13407,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     vehicle: VehicleCreateNestedOneWithoutReceiptsInput
+    recipients?: ReceiptRecipientCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptUncheckedCreateWithoutUserInput = {
@@ -11875,6 +13425,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     vehicleId: string
+    recipients?: ReceiptRecipientUncheckedCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptCreateOrConnectWithoutUserInput = {
@@ -12239,6 +13790,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutReceiptsInput
+    recipients?: ReceiptRecipientCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptUncheckedCreateWithoutVehicleInput = {
@@ -12256,6 +13808,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     userId: string
+    recipients?: ReceiptRecipientUncheckedCreateNestedManyWithoutReceiptInput
   }
 
   export type ReceiptCreateOrConnectWithoutVehicleInput = {
@@ -12383,6 +13936,38 @@ export namespace Prisma {
     create: XOR<VehicleCreateWithoutReceiptsInput, VehicleUncheckedCreateWithoutReceiptsInput>
   }
 
+  export type ReceiptRecipientCreateWithoutReceiptInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReceiptRecipientUncheckedCreateWithoutReceiptInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReceiptRecipientCreateOrConnectWithoutReceiptInput = {
+    where: ReceiptRecipientWhereUniqueInput
+    create: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput>
+  }
+
+  export type ReceiptRecipientCreateManyReceiptInputEnvelope = {
+    data: ReceiptRecipientCreateManyReceiptInput | ReceiptRecipientCreateManyReceiptInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutReceiptsInput = {
     update: XOR<UserUpdateWithoutReceiptsInput, UserUncheckedUpdateWithoutReceiptsInput>
     create: XOR<UserCreateWithoutReceiptsInput, UserUncheckedCreateWithoutReceiptsInput>
@@ -12455,6 +14040,125 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReceiptRecipientUpsertWithWhereUniqueWithoutReceiptInput = {
+    where: ReceiptRecipientWhereUniqueInput
+    update: XOR<ReceiptRecipientUpdateWithoutReceiptInput, ReceiptRecipientUncheckedUpdateWithoutReceiptInput>
+    create: XOR<ReceiptRecipientCreateWithoutReceiptInput, ReceiptRecipientUncheckedCreateWithoutReceiptInput>
+  }
+
+  export type ReceiptRecipientUpdateWithWhereUniqueWithoutReceiptInput = {
+    where: ReceiptRecipientWhereUniqueInput
+    data: XOR<ReceiptRecipientUpdateWithoutReceiptInput, ReceiptRecipientUncheckedUpdateWithoutReceiptInput>
+  }
+
+  export type ReceiptRecipientUpdateManyWithWhereWithoutReceiptInput = {
+    where: ReceiptRecipientScalarWhereInput
+    data: XOR<ReceiptRecipientUpdateManyMutationInput, ReceiptRecipientUncheckedUpdateManyWithoutReceiptInput>
+  }
+
+  export type ReceiptRecipientScalarWhereInput = {
+    AND?: ReceiptRecipientScalarWhereInput | ReceiptRecipientScalarWhereInput[]
+    OR?: ReceiptRecipientScalarWhereInput[]
+    NOT?: ReceiptRecipientScalarWhereInput | ReceiptRecipientScalarWhereInput[]
+    id?: StringFilter<"ReceiptRecipient"> | string
+    email?: StringFilter<"ReceiptRecipient"> | string
+    emailSent?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailSentAt?: DateTimeNullableFilter<"ReceiptRecipient"> | Date | string | null
+    emailDelivered?: BoolFilter<"ReceiptRecipient"> | boolean
+    emailError?: StringNullableFilter<"ReceiptRecipient"> | string | null
+    createdAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"ReceiptRecipient"> | Date | string
+    receiptId?: StringFilter<"ReceiptRecipient"> | string
+  }
+
+  export type ReceiptCreateWithoutRecipientsInput = {
+    id?: string
+    clientName: string
+    origin: string
+    destination: string
+    distance?: number | null
+    amount: Decimal | DecimalJsLike | number | string
+    status?: $Enums.ReceiptStatus
+    notes?: string | null
+    tripDate: Date | string
+    tripTime: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutReceiptsInput
+    vehicle: VehicleCreateNestedOneWithoutReceiptsInput
+  }
+
+  export type ReceiptUncheckedCreateWithoutRecipientsInput = {
+    id?: string
+    clientName: string
+    origin: string
+    destination: string
+    distance?: number | null
+    amount: Decimal | DecimalJsLike | number | string
+    status?: $Enums.ReceiptStatus
+    notes?: string | null
+    tripDate: Date | string
+    tripTime: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    userId: string
+    vehicleId: string
+  }
+
+  export type ReceiptCreateOrConnectWithoutRecipientsInput = {
+    where: ReceiptWhereUniqueInput
+    create: XOR<ReceiptCreateWithoutRecipientsInput, ReceiptUncheckedCreateWithoutRecipientsInput>
+  }
+
+  export type ReceiptUpsertWithoutRecipientsInput = {
+    update: XOR<ReceiptUpdateWithoutRecipientsInput, ReceiptUncheckedUpdateWithoutRecipientsInput>
+    create: XOR<ReceiptCreateWithoutRecipientsInput, ReceiptUncheckedCreateWithoutRecipientsInput>
+    where?: ReceiptWhereInput
+  }
+
+  export type ReceiptUpdateToOneWithWhereWithoutRecipientsInput = {
+    where?: ReceiptWhereInput
+    data: XOR<ReceiptUpdateWithoutRecipientsInput, ReceiptUncheckedUpdateWithoutRecipientsInput>
+  }
+
+  export type ReceiptUpdateWithoutRecipientsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    distance?: NullableFloatFieldUpdateOperationsInput | number | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumReceiptStatusFieldUpdateOperationsInput | $Enums.ReceiptStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tripDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutReceiptsNestedInput
+    vehicle?: VehicleUpdateOneRequiredWithoutReceiptsNestedInput
+  }
+
+  export type ReceiptUncheckedUpdateWithoutRecipientsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    distance?: NullableFloatFieldUpdateOperationsInput | number | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumReceiptStatusFieldUpdateOperationsInput | $Enums.ReceiptStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tripDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -12601,6 +14305,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vehicle?: VehicleUpdateOneRequiredWithoutReceiptsNestedInput
+    recipients?: ReceiptRecipientUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptUncheckedUpdateWithoutUserInput = {
@@ -12618,6 +14323,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vehicleId?: StringFieldUpdateOperationsInput | string
+    recipients?: ReceiptRecipientUncheckedUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptUncheckedUpdateManyWithoutUserInput = {
@@ -12707,6 +14413,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutReceiptsNestedInput
+    recipients?: ReceiptRecipientUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptUncheckedUpdateWithoutVehicleInput = {
@@ -12724,6 +14431,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    recipients?: ReceiptRecipientUncheckedUpdateManyWithoutReceiptNestedInput
   }
 
   export type ReceiptUncheckedUpdateManyWithoutVehicleInput = {
@@ -12741,6 +14449,50 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReceiptRecipientCreateManyReceiptInput = {
+    id?: string
+    email: string
+    emailSent?: boolean
+    emailSentAt?: Date | string | null
+    emailDelivered?: boolean
+    emailError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReceiptRecipientUpdateWithoutReceiptInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReceiptRecipientUncheckedUpdateWithoutReceiptInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReceiptRecipientUncheckedUpdateManyWithoutReceiptInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailSent?: BoolFieldUpdateOperationsInput | boolean
+    emailSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailDelivered?: BoolFieldUpdateOperationsInput | boolean
+    emailError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -204,6 +204,18 @@ exports.Prisma.ReceiptScalarFieldEnum = {
   vehicleId: 'vehicleId'
 };
 
+exports.Prisma.ReceiptRecipientScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  emailSent: 'emailSent',
+  emailSentAt: 'emailSentAt',
+  emailDelivered: 'emailDelivered',
+  emailError: 'emailError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  receiptId: 'receiptId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -231,7 +243,8 @@ exports.Prisma.ModelName = {
   Verification: 'Verification',
   WaitingList: 'WaitingList',
   Vehicle: 'Vehicle',
-  Receipt: 'Receipt'
+  Receipt: 'Receipt',
+  ReceiptRecipient: 'ReceiptRecipient'
 };
 
 /**

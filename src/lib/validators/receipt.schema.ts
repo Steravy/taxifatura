@@ -47,7 +47,12 @@ export const publicReceiptInputSchema = z.object({
   
   vehicleSlug: z
     .string()
-    .min(1, "Slug do veículo é obrigatório")
+    .min(1, "Slug do veículo é obrigatório"),
+
+  emails: z
+    .array(z.string().email("Formato de email inválido"))
+    .min(1, "Pelo menos um email é obrigatório")
+    .max(3, "Máximo de 3 emails permitidos")
 })
 
 // Processing schema for server-side handling (transforms and validates)
@@ -120,7 +125,12 @@ export const publicReceiptProcessingSchema = z.object({
   
   vehicleSlug: z
     .string()
-    .min(1, "Slug do veículo é obrigatório")
+    .min(1, "Slug do veículo é obrigatório"),
+
+  emails: z
+    .array(z.string().email("Formato de email inválido"))
+    .min(1, "Pelo menos um email é obrigatório")
+    .max(3, "Máximo de 3 emails permitidos")
 })
 
 // Type definitions
