@@ -14,7 +14,7 @@ export function HeroSection() {
       {/* Rounded bottom borders */}
       <div className="absolute bottom-0 left-0 right-0 h-8 bg-slate-50 rounded-t-[3rem] border-none"></div>
 
-      <div className="container mx-auto max-w-7xl relative z-10 px-4 sm:px-6 pb-20">
+      <div className="container mx-auto max-w-7xl relative z-10 px-2 sm:px-4 pb-20">
         <div className="text-center space-y-6 md:space-y-8 text-white">
 
           <div className="space-y-6 md:space-y-6">
@@ -26,7 +26,7 @@ export function HeroSection() {
               <span className="block">Por Não Ter Recibo</span>
             </h1>
 
-            <div className="space-y-3 md:space-y-4 max-w-2xl mx-auto px-2">
+            <div className="space-y-3 md:space-y-4 max-w-2xl mx-auto">
               <div className="flex items-center justify-center gap-3">
                 <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-400 flex-shrink-0" />
                 <span className="text-base md:text-lg lg:text-xl text-slate-300 font-medium">
