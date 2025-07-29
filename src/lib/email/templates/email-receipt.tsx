@@ -47,7 +47,7 @@ export const ReceiptEmailTemplate = ({
 
                 <Section style={section}>
                     <Text style={text}>
-                        Hey <strong>{username}</strong>!
+                        Olá <strong>{username}</strong>!
                     </Text>
                     <Text style={text}>
                         Clique no botão abaixo para baixar o seu recibo digital da viagem:
