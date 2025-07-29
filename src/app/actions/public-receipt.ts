@@ -6,6 +6,7 @@ import { ReceiptService, type CreatePublicReceiptData } from "@/lib/services/rec
 import { publicReceiptProcessingSchema, type PublicReceiptInput } from "@/lib/validators/receipt.schema"
 import { SerializedReceipt, SerializedVehicle } from "./types"
 import { serializeReceiptWithExtras } from "@/lib/utils"
+import { sendReceiptEmail } from "@/lib/email/actions"
 
 // Server action result types
 type ActionResult<T> =
@@ -20,7 +21,7 @@ export async function getVehicleBySlug(slug: string): Promise<ActionResult<{
 }>> {
   try {
     const vehicle = await VehicleService.findBySlug(slug)
-    
+
     if (!vehicle) {
       return {
         success: false,
@@ -50,7 +51,7 @@ export async function getVehicleBySlug(slug: string): Promise<ActionResult<{
     }
   } catch (error) {
     console.error("Error fetching vehicle by slug:", error)
-    
+
     return {
       success: false,
       error: "Database error",
@@ -66,7 +67,7 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
   try {
     // Validate and transform the input data
     const validatedData = publicReceiptProcessingSchema.parse(input)
-    
+
     // Find vehicle by slug
     const vehicle = await VehicleService.findBySlug(validatedData.vehicleSlug)
     if (!vehicle) {
@@ -102,6 +103,30 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
     // TODO: Send email notification to driver
     // TODO: Send confirmation email to client recipients
 
+    try {
+
+      const baseUrl = process.env.BETTER_AUTH_URL;
+
+      const vehicle = await VehicleService.findBySlug(validatedData.vehicleSlug);
+
+      const vehicleData = vehicle ? `${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})` : null;
+
+      for (const email of validatedData.emails) {
+
+        await sendReceiptEmail({
+          username: receipt.clientName,
+          downloadLink: `${baseUrl}/receipt/${receipt.id}`,
+          trip: `${receipt.origin} - ${receipt.destination}`,
+          receiptIssuerMail: email,
+          vehicle: vehicleData
+        })
+      }
+
+    } catch (error: unknown) {
+      console.error("Error sending receipt email:", JSON.stringify(error, null, 2))
+      // Handle email sending error (e.g., log it, notify admin, etc.)
+    }
+
     // Revalidate dashboard for the vehicle owner
     revalidatePath("/dashboard")
 
@@ -112,7 +137,7 @@ export async function createPublicReceipt(input: PublicReceiptInput): Promise<Ac
     }
   } catch (error) {
     console.error("Error creating public receipt:", error)
-    
+
     if (error instanceof Error) {
       return {
         success: false,
@@ -140,7 +165,7 @@ export async function getPublicReceipt(receiptId: string): Promise<ActionResult<
 }>> {
   try {
     const receipt = await ReceiptService.findByIdPublic(receiptId)
-    
+
     if (!receipt) {
       return {
         success: false,
@@ -159,7 +184,7 @@ export async function getPublicReceipt(receiptId: string): Promise<ActionResult<
     }
   } catch (error) {
     console.error("Error fetching public receipt:", error)
-    
+
     return {
       success: false,
       error: "Database error",

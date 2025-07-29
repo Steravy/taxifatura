@@ -70,20 +70,20 @@ export function ReceiptViewActions({ receipt }: ReceiptViewActionsProps) {
       <div className="max-w-lg mx-auto">
         <div className="flex flex-col sm:flex-row gap-3 bg-white p-4 rounded-lg shadow-sm border">
           <Button
-            variant="outline"
+            // variant="outline"
             onClick={handleDownloadPDF}
-            className="flex-1"
+            className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
           >
             <Download className="w-4 h-4 mr-2" />
             Baixar PDF
           </Button>
-          <Button
+          {/* <Button
             onClick={handleSendEmail}
             className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
           >
             <Mail className="w-4 h-4 mr-2" />
             Enviar por Email
-          </Button>
+          </Button> */}
         </div>
       </div>
 
