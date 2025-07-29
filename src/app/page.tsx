@@ -29,7 +29,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             <Card className="border-0 shadow-xl bg-gradient-to-br from-blue-50 to-cyan-50 p-6 md:p-8">
               <CardHeader className="p-0 pb-6 md:pb-8">
-                <Badge className="w-fit bg-blue-600 text-white mb-4 md:mb-6 text-sm md:text-base px-3 py-1">Método 1</Badge>
+                <Badge className="w-fit bg-blue-600 text-white mb-4 md:mb-6 rounded-full">Método 1</Badge>
                 <CardTitle className="text-2xl md:text-3xl font-bold">Criação Manual</CardTitle>
                 <CardDescription className="text-lg md:text-xl text-slate-600 mt-2">
                   Perfeito para quando tem tempo para preencher os dados calmamente
@@ -65,7 +65,7 @@ export default function LandingPage() {
 
             <Card className="border-0 shadow-xl bg-gradient-to-br from-green-50 to-emerald-50 p-6 md:p-8">
               <CardHeader className="p-0 pb-6 md:pb-8">
-                <Badge className="w-fit bg-green-600 text-white mb-4 md:mb-6 text-sm md:text-base px-3 py-1">Método 2</Badge>
+                <Badge className="w-fit bg-green-600 text-white mb-4 md:mb-6 rounded-full">Método 2</Badge>
                 <CardTitle className="text-2xl md:text-3xl font-bold">Sistema QR Code</CardTitle>
                 <CardDescription className="text-lg md:text-xl text-slate-600 mt-2">
                   Ideal para quando está a conduzir - segurança em primeiro lugar
