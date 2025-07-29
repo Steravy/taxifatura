@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Eye, MoreHorizontal, Filter, Search, Car, AlertCircle } from "lucide-react"
+import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Filter, Search, Car, AlertCircle, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -15,8 +15,13 @@ import { VehicleQRSelectionSheet } from "@/components/vehicle-qr-selection-sheet
 import { DashboardHeader } from "@/components/dashboard-header"
 import { ReceiptStatusButton } from "@/components/receipt-status-button"
 import { getReceipts, getStats } from "@/app/actions/invoice"
+import { pdf } from '@react-pdf/renderer'
+import { MinimalReceiptPDFTemplate } from '@/components/minimal-receipt-pdf-template'
+import { generateQRCodeDataUrl, getReceiptViewUrl } from '@/lib/qr-utils'
 import { getVehicles, getVehicleStats } from "@/app/actions/vehicle"
 import { SerializedReceipt, SerializedVehicle } from "../actions/types"
+import { getPublicReceipt } from "../actions/public-receipt"
+import { toast } from "sonner"
 
 export default function Dashboard() {
 
@@ -87,6 +92,43 @@ export default function Dashboard() {
             setShowVehicleModal(true)
         } else {
             setShowVehicleSheet(true)
+        }
+    }
+
+    const handleDownloadReceipt = async (receiptId: string) => {
+        try {
+
+            const receiptResult = await getPublicReceipt(receiptId);
+
+            if (!receiptResult.success) {
+                toast.error("Nao foi possivel baixar o recibo!")
+                return;
+            };
+
+            const receipt = receiptResult.data.receipt;
+            const vehicle = receipt.vehicle!
+            // Generate QR code for receipt viewing page
+            const receiptUrl = getReceiptViewUrl(receipt.id)
+            const qrCodeDataUrl = await generateQRCodeDataUrl(receiptUrl)
+
+            // Generate PDF with QR code
+            const blob = await pdf(
+                <MinimalReceiptPDFTemplate
+                    receipt={{ ...receipt, vehicle: { make: vehicle.make, model: vehicle.model, licensePlate: vehicle.licensePlate, color: vehicle.color!, user: { name: receipt.user.name } } }}
+                    qrCodeDataUrl={qrCodeDataUrl}
+                />
+            ).toBlob()
+
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            link.download = `recibo-${receipt.id.slice(-8).toUpperCase()}.pdf`
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+            URL.revokeObjectURL(url)
+        } catch (error) {
+            console.error('Error generating PDF:', error)
         }
     }
 
@@ -363,16 +405,21 @@ export default function Dashboard() {
                                                     </TableCell>
                                                     <TableCell className="text-right">
                                                         <div className="flex items-center justify-end space-x-1">
-                                                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                                            {/* <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                                                 <Eye className="w-4 h-4" />
-                                                            </Button>
+                                                            </Button> */}
                                                             <ReceiptStatusButton
                                                                 receiptId={receipt.id}
                                                                 currentStatus={receipt.status}
                                                                 onStatusUpdate={loadData}
                                                             />
-                                                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                                                <MoreHorizontal className="w-4 h-4" />
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                                                onClick={() => handleDownloadReceipt(receipt.id)}
+                                                            >
+                                                                <Download className="w-4 h-4" />
                                                             </Button>
                                                         </div>
                                                     </TableCell>
