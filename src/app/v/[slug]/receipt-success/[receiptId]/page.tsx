@@ -111,7 +111,7 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
               Recibo Solicitado com Sucesso!
             </h1>
             <p className="text-green-700">
-              O seu recibo foi registado e está a ser processado.
+              O seu recibo está a ser processado
             </p>
           </div>
         </div>
@@ -121,8 +121,8 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
           <CardHeader className="border-b">
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Receipt className="w-5 h-5 text-green-600" />
-                Detalhes do Recibo
+                <Clock className="w-5 h-5 text-green-600" />
+                Estado do Recibo
               </div>
               <Badge className={statusInfo.color}>
                 <StatusIcon className="w-3 h-3 mr-1" />
@@ -227,7 +227,7 @@ export default async function ReceiptSuccessPage({ params }: PageProps) {
         </Card>
 
         {/* Action Buttons */}
-        <ReceiptSuccessActions receiptId={receipt.id} receipt={{ ...receipt, vehicle: { make: vehicle.make, model: vehicle.model, licensePlate: vehicle.licensePlate, color: vehicle.color!, user: { name: vehicle.user.name } } }} />
+        {/* <ReceiptSuccessActions receiptId={receipt.id} receipt={{ ...receipt, vehicle: { make: vehicle.make, model: vehicle.model, licensePlate: vehicle.licensePlate, color: vehicle.color!, user: { name: vehicle.user.name } } }} /> */}
 
         {/* Footer */}
         <div className="text-center text-sm text-slate-500">
