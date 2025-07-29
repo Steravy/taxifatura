@@ -7,7 +7,6 @@ import { HeroSection } from "@/components/home/hero-section"
 import { FeaturesSection } from "@/components/home/features-section"
 import { CTASection } from "@/components/home/cta-section"
 import Link from "next/link"
-import Header from "@/components/home/header"
 
 export default function LandingPage() {
   return (
