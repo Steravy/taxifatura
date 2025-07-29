@@ -1,9 +1,8 @@
-import { CheckCircle, Car, Receipt, Clock, Mail, AlertCircle } from "lucide-react"
+import { CheckCircle, Car, Clock, Mail, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { BackButton } from "@/components/back-button"
-import { ReceiptSuccessActions } from "@/components/receipt-success-actions"
 import { getPublicReceipt, getVehicleBySlug } from "@/app/actions/public-receipt"
 
 interface PageProps {
