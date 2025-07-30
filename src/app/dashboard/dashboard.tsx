@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Filter, Search, Car, AlertCircle, Download, Send } from "lucide-react"
+import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Search, Car, AlertCircle, Download, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -304,10 +304,10 @@ export default function Dashboard() {
                                         className="pl-10 w-full sm:w-56 lg:w-64"
                                     />
                                 </div>
-                                <Button variant="outline" size="sm" className="whitespace-nowrap">
+                                {/* <Button variant="outline" size="sm" className="whitespace-nowrap">
                                     <Filter className="w-4 h-4 mr-2" />
                                     Filtros
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </CardHeader>
@@ -413,9 +413,9 @@ export default function Dashboard() {
                                                     </TableCell>
                                                     <TableCell className="text-right">
                                                         <div className="flex items-center justify-end space-x-1">
-                                                            <Button 
-                                                                variant="ghost" 
-                                                                size="sm" 
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
                                                                 className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50"
                                                                 onClick={() => handleSendEmail(receipt.id)}
                                                             >
