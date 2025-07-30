@@ -207,6 +207,36 @@ export class ReceiptService {
   }
 
   /**
+   * Get receipt by ID with full details for email sending
+   */
+  static async findByIdWithDetails(id: string, userId: string) {
+    return db.receipt.findFirst({
+      where: {
+        id,
+        userId,
+        deletedAt: null,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        },
+        vehicle: {
+          select: {
+            id: true,
+            licensePlate: true,
+            make: true,
+            model: true,
+            color: true,
+          }
+        }
+      }
+    })
+  }
+
+  /**
    * Update receipt
    */
   static async update(id: string, userId: string, data: Partial<CreateReceiptData>): Promise<Receipt | null> {

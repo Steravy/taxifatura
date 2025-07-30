@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Filter, Search, Car, AlertCircle, Download } from "lucide-react"
+import { FileText, QrCode, MapPin, Clock, Euro, User, Plus, TrendingUp, Filter, Search, Car, AlertCircle, Download, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +14,7 @@ import { VehicleManagementSheet } from "@/components/vehicle-management-sheet"
 import { VehicleQRSelectionSheet } from "@/components/vehicle-qr-selection-sheet"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { ReceiptStatusButton } from "@/components/receipt-status-button"
+import { SendReceiptEmailSheet } from "@/components/send-receipt-email-sheet"
 import { getReceipts, getStats } from "@/app/actions/invoice"
 import { pdf } from '@react-pdf/renderer'
 import { MinimalReceiptPDFTemplate } from '@/components/minimal-receipt-pdf-template'
@@ -36,6 +37,8 @@ export default function Dashboard() {
     const [weekStats, setWeekStats] = useState({ totalAmount: 0, tripCount: 0, totalDistance: 0 })
     const [searchTerm, setSearchTerm] = useState("")
     const [isLoading, setIsLoading] = useState(true)
+    const [emailModalOpen, setEmailModalOpen] = useState(false)
+    const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(null)
 
     const loadData = async () => {
         try {
@@ -130,6 +133,11 @@ export default function Dashboard() {
         } catch (error) {
             console.error('Error generating PDF:', error)
         }
+    }
+
+    const handleSendEmail = (receiptId: string) => {
+        setSelectedReceiptId(receiptId)
+        setEmailModalOpen(true)
     }
 
     const filteredReceipts = receipts
@@ -405,9 +413,14 @@ export default function Dashboard() {
                                                     </TableCell>
                                                     <TableCell className="text-right">
                                                         <div className="flex items-center justify-end space-x-1">
-                                                            {/* <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                                                <Eye className="w-4 h-4" />
-                                                            </Button> */}
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="sm" 
+                                                                className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50"
+                                                                onClick={() => handleSendEmail(receipt.id)}
+                                                            >
+                                                                <Send className="w-4 h-4" />
+                                                            </Button>
                                                             <ReceiptStatusButton
                                                                 receiptId={receipt.id}
                                                                 currentStatus={receipt.status}
@@ -455,6 +468,12 @@ export default function Dashboard() {
             <VehicleQRSelectionSheet
                 open={showQRSelectionSheet}
                 onOpenChange={setShowQRSelectionSheet}
+            />
+
+            <SendReceiptEmailSheet
+                open={emailModalOpen}
+                onOpenChange={setEmailModalOpen}
+                receiptId={selectedReceiptId}
             />
         </div>
     )

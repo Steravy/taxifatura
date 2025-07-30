@@ -11,14 +11,16 @@ interface EmailRecipientsInputProps {
   emails: string[]
   onChange: (emails: string[]) => void
   disabled?: boolean
-  maxEmails?: number
+  maxEmails?: number,
+  showDisclaimer?: boolean
 }
 
-export function EmailRecipientsInput({ 
-  emails, 
-  onChange, 
+export function EmailRecipientsInput({
+  emails,
+  onChange,
   disabled = false,
-  maxEmails = 3 
+  maxEmails = 3,
+  showDisclaimer = true
 }: EmailRecipientsInputProps) {
   const [currentEmail, setCurrentEmail] = useState("")
 
@@ -27,7 +29,7 @@ export function EmailRecipientsInput({
 
   const handleAddEmail = () => {
     const email = currentEmail.trim().toLowerCase()
-    
+
     if (!email) return
     if (!emailRegex.test(email)) return
     if (emails.includes(email)) return
@@ -48,20 +50,24 @@ export function EmailRecipientsInput({
     }
   }
 
-  const canAddEmail = currentEmail.trim() && 
-                     emailRegex.test(currentEmail.trim()) && 
-                     !emails.includes(currentEmail.trim().toLowerCase()) &&
-                     emails.length < maxEmails
+  const canAddEmail = currentEmail.trim() &&
+    emailRegex.test(currentEmail.trim()) &&
+    !emails.includes(currentEmail.trim().toLowerCase()) &&
+    emails.length < maxEmails
 
   return (
     <div className="space-y-4">
       {/* Privacy Notice */}
-      <Alert className="border-blue-200 bg-blue-50">
-        <Shield className="h-4 w-4 text-blue-600" />
-        <AlertDescription className="text-blue-800">
-          📧 Estes emails são apenas para receber o recibo. Não são partilhados com o taxista nem com terceiros.
-        </AlertDescription>
-      </Alert>
+      {
+        showDisclaimer && (
+          <Alert className="border-blue-200 bg-blue-50">
+            <Shield className="h-4 w-4 text-blue-600" />
+            <AlertDescription className="text-blue-800">
+              📧 Estes emails são apenas para receber o recibo. Não são partilhados com o taxista nem com terceiros.
+            </AlertDescription>
+          </Alert>
+        )
+      }
 
       {/* Email Input */}
       <div className="flex gap-2">
@@ -84,10 +90,10 @@ export function EmailRecipientsInput({
           <Plus className="w-4 h-4" />
         </Button>
       </div>
-      
+
       {emails.length < maxEmails && (
         <p className="text-sm text-slate-600">
-          {emails.length === 0 
+          {emails.length === 0
             ? `Adicione pelo menos 1 email (máximo ${maxEmails})`
             : `${emails.length}/${maxEmails} emails adicionados`
           }
